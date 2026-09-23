@@ -88,13 +88,13 @@ svg { display: block; }
 
 .home-projects { padding-top: 57px; padding-bottom: 0; }
 .home-projects__inner { width: min(calc(100% - var(--gutter)), var(--max-content)); }
-.featured-project { position: relative; width: 100%; height: 286px; overflow: hidden; border-radius: 9px; background: var(--lavender); cursor: pointer; text-align: left; }
-.featured-project__copy { position: relative; z-index: 2; width: 310px; padding: 28px 0 0 63px; }
+.featured-project { position: relative; width: 100%; height: 580px; overflow: hidden; border-radius: 9px; background: var(--lavender); cursor: pointer; text-align: left; }
+.featured-project__copy { position: relative; z-index: 2; width: min(420px, 46%); padding: 28px 0 0 63px; }
 .featured-project__copy h2 { margin: 34px 0 0; font-size: 22px; line-height: 1; letter-spacing: -.04em; }
-.featured-project__desc { width: 270px; margin: 19px 0 18px; font-size: 10px; line-height: 1.4; color: #39353d; }
+.featured-project__desc { width: min(270px, 100%); margin: 19px 0 18px; font-size: 10px; line-height: 1.4; color: #39353d; }
 .featured-project__visual { position: absolute; inset: 0; pointer-events: none; }
-.featured-project__phones { position: absolute; right: 24%; bottom: -3px; width: 44%; }
-.featured-project__hand { position: absolute; right: -1%; bottom: -8px; width: 25%; }
+.featured-project__phones { position: absolute; right: 27%; bottom: 8px; width: 27%; min-width: 180px; }
+.featured-project__hand { position: absolute; right: 0; bottom: -6px; width: 23%; min-width: 150px; }
 .corner-shape { position: absolute; z-index: 3; width: 40px; height: 40px; background: rgba(134,80,220,.11); }
 .corner-shape--top { right: 0; top: 0; border-radius: 0 0 0 21px; }
 .corner-shape--bottom { left: 0; bottom: 0; border-radius: 0 21px 0 0; }
@@ -259,9 +259,15 @@ svg { display: block; }
   .home-hero__inner { grid-template-columns: minmax(0, 1fr) 390px; }
   .home-hero__copy { padding-left: 28px; }
   .home-hero__portrait { width: min(390px, 100%); }
-  .featured-project__copy { padding-left: 42px; }
-  .featured-project__phones { right: 22%; width: 47%; }
-  .featured-project__hand { width: 27%; }
+  .featured-project { height: 380px; }
+  .featured-project__copy { padding-left: 42px; width: 100%; max-width: 100%; }
+  .featured-project__visual {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+  .featured-project__phones { right: 30%; bottom: 8px; width: 32%; min-width: 150px; }
+  .featured-project__hand { right: 0; bottom: -8px; width: 26%; min-width: 120px; }
   .projects-grid { gap: 34px; }
   .home-about__inner { padding-inline: 48px; gap: 32px; }
   .case-hero__copy { left: 8px; }
@@ -294,13 +300,13 @@ svg { display: block; }
   .home-hero__portrait { width: min(520px, calc(100vw - 18px)); margin-right: -18px; }
 
   .home-projects { padding-top: 46px; }
-  .featured-project { height: auto; min-height: 490px; }
+  .featured-project { height: auto; min-height: 540px; }
   .featured-project__copy { width: auto; padding: 28px 26px 0; }
   .featured-project__copy h2 { margin-top: 25px; font-size: 28px; }
   .featured-project__desc { width: min(370px, 100%); margin-top: 16px; font-size: 13px; line-height: 1.46; }
   .featured-project .text-button { min-height: 40px; font-size: 12px; }
-  .featured-project__phones { width: 95%; right: 0; bottom: 22px; }
-  .featured-project__hand { width: 61%; right: -7%; bottom: -3px; }
+  .featured-project__phones { width: 100%; right: 2%; bottom: 18px; }
+  .featured-project__hand { width: 70%; right: -4%; bottom: -1px; }
   .corner-shape { width: 42px; height: 42px; }
   .home-projects__others { margin-top: 58px; }
   .home-projects__others > .eyebrow { font-size: 11px; }
@@ -413,10 +419,10 @@ svg { display: block; }
   .home-hero__copy h1 { font-size: 34px; }
   .home-hero__body { font-size: 13px; }
   .home-hero__portrait { width: min(490px, calc(100vw - 8px)); margin-right: -13px; }
-  .featured-project { min-height: 450px; }
+  .featured-project { min-height: 470px; }
   .featured-project__copy { padding-inline: 20px; }
-  .featured-project__phones { width: 103%; right: -6%; bottom: 18px; }
-  .featured-project__hand { width: 64%; right: -8%; }
+  .featured-project__phones { width: 108%; right: -6%; bottom: 16px; }
+  .featured-project__hand { width: 72%; right: -7%; }
   .project-card { grid-template-columns: 42% 58%; min-height: 202px; }
   .project-card__copy h3 { font-size: 23px; }
   .project-card__copy p { font-size: 11px; }
@@ -460,12 +466,18 @@ svg { display: block; }
 
 .featured-project {
   height: 324px;
+  display:flex;
+
+  padding: 5px;
+  
 }
 .featured-project__visual {
-  display: block;
+  display:flex;
+  
+  
 }
 .featured-project__phones {
-  right: 27%;
+  right: 35%;
   bottom: 9px;
   width: auto;
   height: 300px;
@@ -486,6 +498,7 @@ svg { display: block; }
 .home-about__inner {
   width: min(calc(100% - var(--gutter)), var(--max-content));
   box-sizing: border-box;
+  
 }
 
 /* Carousel navigation: buttons sit below the gallery and advance horizontally. */
@@ -579,17 +592,36 @@ svg { display: block; }
 
   .featured-project {
     min-height: 500px;
-    height: 500px;
+    height: auto;
+    display: grid;
+    align-items: start;
   }
-  .featured-project__phones {
-    height: 250px;
-    right: 25%;
-    bottom: 28px;
+  .featured-project__copy {
+    width: 100%;
+    padding: 28px 26px 0;
+    position: relative;
+    z-index: 2;
   }
+  .featured-project__visual {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 18px;
+    padding: 0 18px 18px;
+    box-sizing: border-box;
+  }
+  .featured-project__phones,
   .featured-project__hand {
-    height: 210px;
-    right: -6px;
-    bottom: 0;
+    position: static;
+    width: auto;
+    max-width: 46%;
+    height: auto;
+    max-height: 230px;
+    object-fit: contain;
+    flex: 1 1 0;
   }
 
   .project-card__image-wrap {
