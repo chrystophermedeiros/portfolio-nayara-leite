@@ -723,3 +723,198 @@ svg { display: block; }
     max-width: 60%;
   }
 }
+
+/* Responsive typography + spacing refinement for tablet and desktop.
+   Mobile rules below 720px remain unchanged. */
+@media (min-width: 721px) {
+  :root {
+    --gutter: 64px;
+  }
+
+  .site-header__inner {
+    min-height: 96px;
+  }
+
+  .brandmark { font-size: 28px; }
+  .site-header__desktop { gap: 31px; }
+  .site-nav-link { font-size: 12px; }
+  .header-cta { min-height: 44px; padding-inline: 22px; font-size: 12px; }
+
+  .eyebrow { font-size: 12px; }
+  .text-button { min-height: 40px; padding-inline: 21px; font-size: 12px; }
+  .button { min-height: 40px; padding-inline: 19px; font-size: 12px; }
+
+  .home-hero__role { font-size: 13px; }
+  .home-hero__body { width: min(420px, 100%); font-size: 14px; line-height: 1.5; }
+  .home-hero__contact > span { font-size: 11px; }
+  .hero-socials__be { font-size: 12px; }
+
+  .featured-project__copy h2 { font-size: 28px; }
+  .featured-project__desc { width: min(340px, 100%); font-size: 13px; line-height: 1.48; }
+
+  .project-card__copy h3 { font-size: clamp(24px, 2vw, 29px); }
+  .project-card__copy p { font-size: 12px; line-height: 1.5; }
+  .project-card__button { min-height: 40px; font-size: 12px; }
+
+  .home-about__copy h2 { font-size: clamp(32px, 2.5vw, 38px); }
+  .home-about__copy h2 span { font-size: 24px; }
+  .home-about__copy > p:not(.eyebrow):not(.home-about__tools-label) { width: 390px; font-size: 14px; line-height: 1.52; }
+  .resume-button { min-height: 42px; padding-inline: 18px; font-size: 12px; }
+  .home-about__tools-label { font-size: 11px; }
+  .tool-mark { width: 31px; height: 31px; font-size: 14px; }
+  .trait span:last-child { font-size: 14px; }
+
+  .site-footer__title { font-size: clamp(21px, 1.7vw, 26px); }
+  .site-footer__subtitle { font-size: 12px; }
+  .site-footer__cta { min-height: 44px; font-size: 12px; }
+  .footer-contact { font-size: 11px; }
+  .site-footer__meta { font-size: 9px; }
+
+  .case-strip { font-size: 11px; line-height: 1.5; }
+  .case-problem article h2,
+  .process-layout h2,
+  .case-detail-body h2 { font-size: 22px; }
+  .case-problem article > p:not(.eyebrow) { width: 315px; font-size: 13px; line-height: 1.5; }
+  .pain-card h3 { font-size: 12px; }
+  .pain-card div { font-size: 11px; line-height: 1.42; }
+  .objective-list div { font-size: 11px; }
+  .objective-list span { font-size: 18px; }
+
+  .process-steps div { font-size: 11px; }
+  .process-layout > div:nth-child(2) > p:not(.eyebrow) { width: 320px; font-size: 11px; line-height: 1.5; }
+  .process-layout h3 { font-size: 12px; }
+  .process-layout li { font-size: 11px; line-height: 1.4; }
+  .case-gallery-title { font-size: 27px; }
+  .case-gallery-subtitle { font-size: 20px; }
+
+  .case-hero__copy h1 { font-size: 30px; }
+  .case-hero__copy > p { width: 315px; font-size: 13px; line-height: 1.5; }
+  .case-hero__actions .button { min-height: 40px; font-size: 11px; }
+
+  .case-detail-copy h1 { font-size: 31px; }
+  .case-detail-copy > p { width: 330px; font-size: 13px; line-height: 1.5; }
+  .case-detail-shell .case-hero__actions .button { min-height: 40px; font-size: 11px; }
+  .delivery-project-grid p:not(.eyebrow),
+  .splendore-overview p:not(.eyebrow) { width: 360px; font-size: 13px; line-height: 1.5; }
+  .delivery-highlight h3 { font-size: 18px; }
+  .delivery-screens-section .section-heading h2,
+  .splendore-screens-section > h2,
+  .delivery-demo-section > h2,
+  .splendore-interaction-section h2 { font-size: 22px; }
+  .splendore-flow__top h3 { font-size: 18px; }
+  .flow-summary-line { font-size: 12px; }
+  .flow-action { min-height: 42px; font-size: 12px; }
+  .confirmed-state h4 { font-size: 18px; }
+  .confirmed-state p { font-size: 11px; }
+}
+
+/* Keep the Arena hero artwork separated on tablet so the phone and hand never overlap. */
+@media (min-width: 721px) and (max-width: 980px) {
+  /* Home / Arena Sun7 featured card: keep the copy in its own column and the two artworks side-by-side. */
+  .featured-project__copy {
+    width: 44%;
+    max-width: 360px;
+    padding-left: 42px;
+    box-sizing: border-box;
+  }
+
+  .featured-project__visual {
+    position: absolute;
+    left: 44%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0 10px 8px 8px;
+    box-sizing: border-box;
+  }
+
+  .featured-project__phones,
+  .featured-project__hand {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    max-width: 47%;
+    flex: 0 1 47%;
+    object-fit: contain;
+  }
+
+  .featured-project__phones { max-height: 236px; }
+  .featured-project__hand { max-height: 188px; }
+
+  .case-hero__visual {
+    left: 44%;
+    right: 0;
+    top: 76px;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 0 10px 10px;
+    box-sizing: border-box;
+  }
+
+  .case-hero__phones {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    max-width: 46%;
+    max-height: 232px;
+    flex: 0 1 46%;
+    object-fit: contain;
+  }
+
+  .case-hero__hand {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    max-width: 46%;
+    max-height: 190px;
+    flex: 0 1 46%;
+    object-fit: contain;
+  }
+
+  .case-hero--delivery-detail,
+  .case-hero--splendore-detail {
+    padding-top: 58px;
+    box-sizing: border-box;
+  }
+
+  .case-detail-shell {
+    min-height: 430px;
+    gap: 30px;
+    grid-template-columns: .9fr 1.1fr;
+    box-sizing: border-box;
+  }
+
+  .delivery-detail-hero,
+  .splendore-detail-hero { width: min(100%, 500px); }
+
+  .delivery-detail-hero img,
+  .splendore-detail-hero img { max-height: 300px; }
+}
+
+/* On wider desktop screens, reserve more breathing room below the fixed header. */
+@media (min-width: 981px) {
+  .case-hero--delivery-detail,
+  .case-hero--splendore-detail {
+    padding-top: 62px;
+    box-sizing: border-box;
+  }
+
+  .case-detail-shell {
+    min-height: 430px;
+    box-sizing: border-box;
+  }
+}
