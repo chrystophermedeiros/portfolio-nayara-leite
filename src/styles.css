@@ -49,9 +49,9 @@ svg { display: block; }
 
 /* Header */
 .site-header { position: absolute; z-index: 50; inset: 0 0 auto; background: transparent; }
-.site-header__inner { width: min(calc(100% - var(--gutter)), var(--max-content)); min-height: 86px; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; }
+.site-header__inner { width: min(calc(100% - var(--gutter)), var(--max-content)); min-height: 86px; margin-inline: auto; padding-inline: 18px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; }
 .brandmark { padding: 0; background: transparent; color: var(--brand); font-size: 25px; line-height: 1; font-weight: 700; letter-spacing: -.06em; cursor: pointer; }
-.back-button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; background: transparent; color: var(--brand); cursor: pointer; }
+.back-button { display: grid; place-items: center; width: 34px; height: 34px; margin-left: 12px; padding: 0; background: transparent; color: var(--brand); cursor: pointer; }
 .back-button svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .site-header__desktop { display: flex; align-items: center; gap: 27px; }
 .site-nav-link { padding: 8px 0; background: transparent; color: #0e0e10; font-size: 10px; font-weight: 700; cursor: pointer; }
@@ -145,18 +145,18 @@ svg { display: block; }
 
 /* Case hero / Arena */
 .project-page { background: var(--paper); }
-.case-hero--arena { height: 365px; background: var(--hero); overflow: hidden; }
-.case-hero__inner { position: relative; width: min(calc(100% - var(--gutter)), var(--max-content)); height: 365px; margin-inline: auto; }
-.case-hero__copy { position: absolute; z-index: 4; left: 0; top: 98px; width: 290px; }
+.case-hero--arena { height: 520px; background: var(--hero); overflow: hidden; }
+.case-hero__inner { position: relative; width: min(calc(100% - var(--gutter)), var(--max-content)); height: 520px; margin-inline: auto; }
+.case-hero__copy { position: absolute; z-index: 4; left: 0; top: 86px; width: min(40%, 420px); padding-bottom: 16px; }
 .tag { display: inline-flex; align-items: center; min-height: 18px; padding: 0; background: transparent; color: var(--brand); font-size: 10px; font-weight: 800; letter-spacing: .18em; }
 .case-hero__copy h1 { margin: 17px 0 0; font-size: 23px; line-height: 1; letter-spacing: -.035em; }
-.case-hero__copy > p { margin: 18px 0 0; width: 260px; font-size: 10px; line-height: 1.42; color: #37333d; }
-.case-hero__actions { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 24px; }
+.case-hero__copy > p { margin: 18px 0 0; width: min(100%, 260px); font-size: 10px; line-height: 1.42; color: #37333d; }
+.case-hero__actions { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 24px; margin-bottom: 12px; }
 .case-hero__actions .button { min-height: 34px; padding-inline: 14px; font-size: 9px; }
 .case-hero__visual { position: absolute; inset: 0; }
-.case-hero__blob { position: absolute; left: 285px; top: 119px; width: 260px; height: 212px; border-radius: 55px 72px 68px 72px; background: #e8ddf0; }
-.case-hero__phones { position: absolute; left: 265px; bottom: 4px; width: 355px; }
-.case-hero__hand { position: absolute; right: -15px; bottom: -7px; width: 205px; }
+.case-hero__blob { position: absolute; left: 43%; top: 98px; width: clamp(330px, 35vw, 520px); height: clamp(220px, 23vw, 300px); border-radius: 58px 78px 68px 78px; background: #e8ddf0; }
+.case-hero__phones { position: absolute; left: 41.5%; top: 28px; width: clamp(245px, 21vw, 305px); max-width: 100%; z-index: 2; }
+.case-hero__hand { position: absolute; right: 14px; bottom: -12px; width: clamp(182px, 20vw, 238px); max-width: 100%; z-index: 3; }
 .case-strip { width: min(calc(100% - 2 * var(--gutter) + 24px), var(--max-content)); max-width: calc(var(--max-content) + 24px); margin: 20px auto 0; padding: 10px 14px; border-radius: 6px; background: #f2eff8; color: #554f5d; font-size: 9px; line-height: 1.4; }
 
 .case-problem { padding-top: 31px; }
@@ -270,10 +270,12 @@ svg { display: block; }
   .featured-project__hand { right: 0; bottom: -8px; width: 26%; min-width: 120px; }
   .projects-grid { gap: 34px; }
   .home-about__inner { padding-inline: 48px; gap: 32px; }
-  .case-hero__copy { left: 8px; }
-  .case-hero__blob { left: 38%; }
-  .case-hero__phones { left: 35%; width: 360px; }
-  .case-hero__hand { width: 200px; }
+  .case-hero--arena { height: 470px; }
+  .case-hero__inner { height: 470px; }
+  .case-hero__copy { top: 88px; width: min(44%, 320px); }
+  .case-hero__blob { left: 32%; top: 130px; width: clamp(240px, 36vw, 390px); height: 220px; }
+  .case-hero__phones { left: 38%; bottom: 18px; width: min(300px, 42vw); }
+  .case-hero__hand { right: -8px; bottom: -12px; width: min(200px, 24vw); }
 }
 
 @media (max-width: 720px) {
@@ -345,16 +347,17 @@ svg { display: block; }
   .footer-contact__icon { width: 28px; height: 28px; }
   .site-footer__meta { font-size: 8px; }
 
-  .case-hero--arena { height: 545px; }
-  .case-hero__inner { height: 545px; }
-  .case-hero__copy { left: 0; top: 128px; width: min(310px, 100%); }
+  .case-hero--arena { height: 620px; }
+  .case-hero__inner { height: 620px; }
+  .case-hero__copy { position: relative; left: auto; top: auto; width: min(100%, 310px); padding-top: 18px; padding-bottom: 14px; }
   .case-hero__copy h1 { font-size: 30px; }
   .case-hero__copy > p { width: min(330px, 100%); font-size: 13px; line-height: 1.45; }
-  .case-hero__actions { margin-top: 22px; flex-direction: row; flex-wrap: wrap; }
+  .case-hero__actions { margin-top: 22px; margin-bottom: 14px; flex-direction: row; flex-wrap: wrap; }
   .case-hero__actions .button { min-height: 39px; font-size: 11px; }
-  .case-hero__blob { left: 31%; top: 285px; width: 270px; height: 200px; }
-  .case-hero__phones { left: 6%; bottom: 28px; width: 300px; }
-  .case-hero__hand { right: -19px; bottom: -5px; width: 178px; }
+  .case-hero__visual { position: relative; width: 100%; height: 380px; margin-top: 12px; }
+  .case-hero__blob { left: 19%; top: 82px; width: min(330px, 74vw); height: 220px; }
+  .case-hero__phones { left: 21%; top: 18px; width: min(230px, 46vw); }
+  .case-hero__hand { right: 1%; bottom: 10px; width: min(170px, 32vw); }
   .case-strip { width: calc(100% - 48px); margin-top: 18px; padding: 11px 13px; font-size: 10px; }
   .case-problem { padding-top: 30px; }
   .case-problem__grid, .process-layout, .delivery-project-grid, .splendore-overview { grid-template-columns: 1fr; gap: 34px; }
@@ -428,11 +431,11 @@ svg { display: block; }
   .project-card__copy p { font-size: 11px; }
   .home-about__inner { padding-inline: 22px; }
   .site-footer__inner { width: calc(100% - 32px); }
-  .case-hero--arena, .case-hero__inner { height: 530px; }
-  .case-hero__copy { top: 120px; }
-  .case-hero__blob { left: 26%; top: 280px; width: 250px; height: 190px; }
-  .case-hero__phones { left: -1%; width: 292px; }
-  .case-hero__hand { right: -29px; width: 170px; }
+  .case-hero--arena, .case-hero__inner { height: 540px; }
+  .case-hero__copy { top: 112px; }
+  .case-hero__blob { left: 16%; top: 248px; width: min(250px, 74vw); height: 190px; }
+  .case-hero__phones { left: 12%; top: 166px; width: min(190px, 50vw); }
+  .case-hero__hand { right: -12px; top: 300px; width: min(150px, 40vw); }
 }
 
 @media (prefers-reduced-motion: reduce) {

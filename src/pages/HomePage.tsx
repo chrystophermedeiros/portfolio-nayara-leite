@@ -69,7 +69,7 @@ export default function HomePage() {
             <p className="eyebrow">SOBRE MIM</p>
             <h2>Prazer, sou a<br />Nayara Leite <span aria-hidden="true">✦</span></h2>
             <p>Gosto de transformar ideias em interfaces que fazem sentido. Acredito que o designer tem o poder de simplificar, conectar e melhorar a vidas das pessoas.</p>
-            <a className="resume-button" href="/curriculo-nayara-leite.txt" download>Baixar currículo <span aria-hidden="true">↓</span></a>
+            <a className="resume-button" href="/Curriculo_Nayara_Leite_UI_UX.pdf" download>Baixar currículo <span aria-hidden="true">↓</span></a>
             <p className="home-about__tools-label">FERRAMENTAS</p>
             <div className="home-about__tools" aria-label="Ferramentas">
               <span className="tool-mark tool-mark--figma">F</span>

@@ -66,7 +66,7 @@ export default function SplendorePage() {
             <p>Construir um e-commerce mobile visualmente leve, com navegação clara e etapas de compra fáceis de entender.</p>
             <div className="tag-row"><Tag>Figma</Tag><Tag>Mobile</Tag><Tag>E-commerce</Tag></div>
           </div>
-          <div className="splendore-overview__visual"><img src="/assets/splendore-screen-4.png" alt="Tela de pagamento do Splendore" /></div>
+          
         </section>
 
         <section className="case-shell splendore-screens-section">
@@ -75,11 +75,7 @@ export default function SplendorePage() {
           <Carousel images={mapScreens} visible={3} className="carousel--splendore" />
         </section>
 
-        <section className="case-shell splendore-interaction-section">
-          <p className="eyebrow">INTERAÇÃO</p>
-          <h2>Fluxo de compra</h2>
-          <PurchaseFlow />
-        </section>
+        
       </main>
     </div>
   )
