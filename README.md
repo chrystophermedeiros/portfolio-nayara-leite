@@ -1,5 +1,10 @@
 # Nayara Leite — Portfólio
 
+## Refinamento 1.5.0
+
+Esta versao prioriza fidelidade ao layout de referencia, imagens sem corte, hierarquia visual no Arena Sun7 e carrosseis que nao interrompem a rolagem vertical em telas touch.
+
+
 Portfólio em **React + TypeScript + Twind**, reproduzindo a estrutura visual do arquivo Figma enviado e os fluxos principais do protótipo.
 
 ## Rodar localmente

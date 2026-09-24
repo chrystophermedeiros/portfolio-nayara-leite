@@ -3,6 +3,7 @@ import Carousel from '../components/Carousel'
 import { LinkButton } from '../components/Button'
 import SectionHeading from '../components/SectionHeading'
 import Tag from '../components/Tag'
+import { ArrowUpRightIcon } from '../components/Icons'
 
 const screens = [
   ['delivery-screen-1.png', 'Tela inicial'],
@@ -12,7 +13,26 @@ const screens = [
   ['delivery-screen-5.png', 'Lista de produtos'],
   ['delivery-screen-4.png', 'Carrinho'],
 ]
+
 const mapScreens = screens.map(([src, alt]) => ({ src: `/assets/${src}`, alt }))
+
+function ProjectMeta() {
+  return (
+    <div className="project-meta project-meta--images" aria-label="Informações do projeto">
+      <picture>
+        <source media="(max-width: 720px)" srcSet="/assets/icons/figma-chip-compact.svg" />
+        <img src="/assets/icons/figma-chip.svg" alt="Figma" />
+      </picture>
+      <picture>
+        <source media="(max-width: 720px)" srcSet="/assets/icons/app-mobile-compact.svg" />
+        <img src="/assets/icons/app-mobile.svg" alt="Aplicativo mobile" />
+      </picture>
+      <picture>
+        <img src="/assets/icons/prototype-chip.svg" alt="Protótipo interativo" />
+      </picture>
+    </div>
+  )
+}
 
 export default function DeliveryPage() {
   return (
@@ -21,15 +41,22 @@ export default function DeliveryPage() {
         <div className="case-detail-shell">
           <div className="case-detail-copy">
             <Tag>UI DESIGN + PROTOTIPAÇÃO</Tag>
-            <h1>App Delivery 🐝</h1>
+            <h1>App Delivery <img className="delivery-title-bee" src="/assets/icons/bee.svg" alt="" aria-hidden="true" /></h1>
             <p>Aplicativo de delivery com foco em uma navegação simples e rápida, facilitando o pedido do usuário.</p>
+            <ProjectMeta />
             <div className="case-hero__actions">
-              <LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" variant="ghost">Figma <span aria-hidden="true">↗</span></LinkButton>
-              <LinkButton href="#telas">Protótipo interativo <span aria-hidden="true">↗</span></LinkButton>
+              <LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">
+                Explorar protótipo <ArrowUpRightIcon aria-hidden="true" />
+              </LinkButton>
             </div>
           </div>
+
           <div className="delivery-detail-hero">
-            <img src="/assets/delivery-composite.png" alt="Composição do aplicativo Bee Food" />
+            <div className="delivery-video-card">
+              <video controls preload="metadata" playsInline poster="/assets/delivery-composite.png">
+                <source src="/assets/delivery-demo.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
       </section>
@@ -52,12 +79,6 @@ export default function DeliveryPage() {
         <section id="telas" className="case-shell delivery-screens-section">
           <SectionHeading eyebrow="TELAS DO APLICATIVO" title="Fluxo principal" />
           <Carousel images={mapScreens} visible={4} className="carousel--screens" />
-        </section>
-
-        <section className="case-shell delivery-demo-section">
-          <p className="eyebrow">PROTÓTIPO</p>
-          <h2>Demonstração</h2>
-          <div className="media-card"><video controls preload="metadata" playsInline poster="/assets/delivery-composite.png"><source src="/assets/delivery-demo.mp4" type="video/mp4" /></video></div>
         </section>
       </main>
     </div>

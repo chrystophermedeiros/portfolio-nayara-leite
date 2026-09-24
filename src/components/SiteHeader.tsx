@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { go } from '../lib/router'
 import { LinkButton } from './Button'
+import { ArrowUpRightIcon, ChevronLeftIcon } from './Icons'
 
 type Props = { page: 'home' | 'project' }
 
@@ -39,7 +40,7 @@ export default function SiteHeader({ page }: Props) {
       <div className="site-header__inner">
         {page === 'project' ? (
           <button onClick={() => handle('/')} className="back-button" aria-label="Voltar para a página inicial">
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 4-6 6 6 6" /></svg>
+            <ChevronLeftIcon />
           </button>
         ) : (
           <button onClick={() => handle('/')} className="brandmark" aria-label="Ir para a página inicial">NL</button>
@@ -55,7 +56,7 @@ export default function SiteHeader({ page }: Props) {
               {item.label}
             </button>
           ))}
-          <LinkButton href="mailto:nayaradesigner1@gmail.com" variant="dark" className="header-cta">Vamos conversar <span aria-hidden="true">↗</span></LinkButton>
+          <LinkButton href="mailto:nayaradesigner1@gmail.com" variant="dark" className="header-cta">Vamos conversar <ArrowUpRightIcon aria-hidden="true" /></LinkButton>
         </nav>
 
         <button
@@ -73,7 +74,7 @@ export default function SiteHeader({ page }: Props) {
         <div id="mobile-menu" className="mobile-menu">
           <nav aria-label="Menu mobile">
             {nav.map((item) => <button key={item.label} onClick={() => handle(item.href)}>{item.label}</button>)}
-            <a href="mailto:nayaradesigner1@gmail.com" onClick={() => setOpen(false)}>Vamos conversar ↗</a>
+            <a href="mailto:nayaradesigner1@gmail.com" onClick={() => setOpen(false)}>Vamos conversar <ArrowUpRightIcon aria-hidden="true" /></a>
           </nav>
         </div>
       )}

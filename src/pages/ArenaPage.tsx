@@ -2,6 +2,7 @@ import { FIGMA_URL, MIRO_URL } from '../lib/router'
 import { LinkButton } from '../components/Button'
 import Carousel from '../components/Carousel'
 import Tag from '../components/Tag'
+import { ArrowUpRightIcon, BulbIcon, CheckCircleIcon, ObjectiveIcon } from '../components/Icons'
 
 const beforeImages = [
   ['/assets/arena-before-1.png', 'Tela anterior — perfil e agenda'],
@@ -31,8 +32,8 @@ export default function ArenaPage() {
             <h1>Arena Sun7</h1>
             <p>Redesign da plataforma de agendamento de quadras esportivas. Melhorando a navegação, a organização das informações e a experiência de reserva.</p>
             <div className="case-hero__actions">
-              <LinkButton href={MIRO_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" variant="ghost">Ver estudo de caso <span aria-hidden="true">↗</span></LinkButton>
-              <LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Explorar protótipo <span aria-hidden="true">↗</span></LinkButton>
+              <LinkButton href={MIRO_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" variant="ghost">Ver estudo de caso <ArrowUpRightIcon aria-hidden="true" /></LinkButton>
+              <LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Explorar protótipo <ArrowUpRightIcon aria-hidden="true" /></LinkButton>
             </div>
           </div>
           <div className="case-hero__visual" aria-hidden="true">
@@ -43,7 +44,7 @@ export default function ArenaPage() {
         </div>
       </section>
 
-      <div className="case-strip">✣ &nbsp; Este projeto foi desenvolvido como parte da graduação em Design Digital e User Experience, aplicando metodologias de UX para resolver um problema real de usabilidade.</div>
+      <div className="case-strip"><BulbIcon /> <span>Este projeto foi desenvolvido como parte da graduação em Design Digital e User Experience, aplicando metodologias de UX para resolver um problema real de usabilidade.</span></div>
 
       <section className="case-section case-shell case-problem">
         <div className="case-problem__grid">
@@ -54,13 +55,13 @@ export default function ArenaPage() {
           </article>
           <article className="pain-card">
             <h3>Principais dores dos usuários</h3>
-            {['Dificuldade para encontrar horários disponíveis', 'Informações importantes pouco destacadas', 'Muitas etapas para concluir uma reserva', 'Falta de clareza sobre reservas futuras'].map(item => <div key={item}><span>✓</span>{item}</div>)}
+            {['Dificuldade para encontrar horários disponíveis', 'Informações importantes pouco destacadas', 'Muitas etapas para concluir uma reserva', 'Falta de clareza sobre reservas futuras'].map(item => <div key={item}><CheckCircleIcon />{item}</div>)}
           </article>
           <article>
             <p className="eyebrow">OBJETIVOS</p>
             <h2>O que eu queria alcançar</h2>
             <div className="objective-list">
-              {['Simplificar o fluxo', 'Destacar informações importantes', 'Tornar a experiência mais intuitiva e rápida', 'Aumentar a satisfação dos usuários'].map(item => <div key={item}><span aria-hidden="true">✧</span>{item}</div>)}
+              {['Simplificar o fluxo', 'Destacar informações importantes', 'Tornar a experiência mais intuitiva e rápida', 'Aumentar a satisfação dos usuários'].map((item, index) => <div key={item}><ObjectiveIcon kind={index as 0 | 1 | 2 | 3} />{item}</div>)}
             </div>
           </article>
         </div>
@@ -72,7 +73,7 @@ export default function ArenaPage() {
             <p className="eyebrow">O PROCESSO</p>
             <h2>Como cheguei à solução</h2>
             <div className="process-steps">
-              {['Pesquisa', 'Benchmark', 'Persona', 'Jornada do usuário', 'Protótipo'].map((item) => <div key={item}><span className="process-check">✓</span>{item}</div>)}
+              {['Pesquisa', 'Benchmark', 'Persona', 'Jornada do usuário', 'Protótipo'].map((item) => <div key={item}><CheckCircleIcon className="process-check-icon" />{item}</div>)}
             </div>
           </div>
           <div>

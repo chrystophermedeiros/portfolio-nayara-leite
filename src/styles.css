@@ -921,3 +921,843 @@ svg { display: block; }
     box-sizing: border-box;
   }
 }
+
+/* =========================================================
+   V6 FINAL REFINEMENT
+   - Arena hero never overlaps the copy on mobile/tablet
+   - Touch carousel respects vertical page scrolling
+   - Carousel controls stay below the gallery
+   - Tighter desktop/tablet spacing between images
+   - Brand/utility icons are rendered as dedicated SVGs
+   ========================================================= */
+
+/* SVG icon system */
+.hero-socials svg,
+.footer-contact__icon svg,
+.tool-mark svg,
+.trait-icon svg,
+.case-strip svg,
+.pain-card svg,
+.objective-list svg,
+.process-steps svg,
+.carousel__control svg,
+.lightbox__nav svg {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.hero-socials svg { width: 22px; height: 22px; }
+.footer-contact__icon svg { width: 18px; height: 18px; }
+.hero-socials a { border-radius: 4px; }
+.hero-socials a:first-child,
+.hero-socials a:nth-child(2) { color: #101112; }
+
+.tool-mark { width: 34px; height: 34px; }
+.tool-mark svg { width: 28px; height: 28px; }
+.tool-mark:first-child svg { width: 24px; height: 30px; }
+.trait-icon { width: 56px; height: 56px; }
+.trait-icon svg { width: 50px; height: 50px; }
+
+.case-strip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.case-strip > svg { width: 20px; height: 20px; color: var(--brand); }
+.pain-card div > svg { width: 16px; height: 16px; color: var(--brand); }
+.objective-list div > svg { width: 19px; height: 19px; color: var(--brand); }
+.process-steps div > svg { width: 16px; height: 16px; color: var(--brand); }
+
+/* Carousel: native vertical page scrolling is never intercepted. */
+.carousel { --carousel-gap: 10px; }
+.carousel__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+.carousel__viewport.is-pointer-down { cursor: grabbing; }
+.carousel__viewport.is-dragging { cursor: grabbing; }
+.carousel__track { gap: var(--carousel-gap); }
+.carousel__item { user-select: none; -webkit-user-select: none; }
+.carousel__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+}
+.carousel__control {
+  width: 44px;
+  height: 36px;
+  min-width: 44px;
+  padding: 0;
+}
+.carousel__control svg { width: 19px; height: 19px; }
+
+/* Desktop/tablet: closer grouping, without huge gaps. */
+@media (min-width: 721px) {
+  .carousel { --carousel-gap: 8px; }
+  .carousel__track { padding-bottom: 4px; }
+  .carousel__item { scroll-snap-align: start; }
+  .carousel--final .carousel__item { flex-basis: calc((min(100vw - var(--gutter), var(--max-content)) - (var(--carousel-columns) - 1) * 8px) / var(--carousel-columns)); }
+  .carousel--before .carousel__item { flex-basis: calc((min(100vw - var(--gutter), var(--max-content)) - (var(--carousel-columns) - 1) * 8px) / var(--carousel-columns)); }
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item { flex-basis: calc((min(100vw - var(--gutter), var(--max-content)) - (var(--carousel-columns) - 1) * 8px) / var(--carousel-columns)); }
+}
+
+/* Arena: use real layout columns on desktop and a strict stack on smaller screens. */
+@media (min-width: 981px) {
+  .case-hero--arena {
+    height: auto;
+    min-height: 520px;
+  }
+  .case-hero__inner {
+    height: auto;
+    min-height: 520px;
+    display: grid;
+    grid-template-columns: minmax(0, 39%) minmax(0, 61%);
+    align-items: stretch;
+  }
+  .case-hero--arena .case-hero__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    z-index: 4;
+    width: auto;
+    align-self: center;
+    padding: 76px 24px 52px 0;
+  }
+  .case-hero--arena .case-hero__visual {
+    position: relative;
+    inset: auto;
+    min-height: 520px;
+    overflow: visible;
+  }
+  .case-hero--arena .case-hero__blob {
+    left: 6%;
+    top: 105px;
+    width: 61%;
+    height: 255px;
+  }
+  .case-hero--arena .case-hero__phones {
+    left: 6%;
+    top: 22px;
+    width: min(315px, 47%);
+    height: auto;
+  }
+  .case-hero--arena .case-hero__hand {
+    right: -2px;
+    bottom: -6px;
+    width: min(235px, 37%);
+    height: auto;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 980px) {
+  .case-hero--arena {
+    height: auto;
+    min-height: 500px;
+  }
+  .case-hero__inner {
+    height: auto;
+    min-height: 500px;
+    display: grid;
+    grid-template-columns: minmax(0, 42%) minmax(0, 58%);
+    align-items: center;
+  }
+  .case-hero--arena .case-hero__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    padding: 72px 12px 48px 0;
+  }
+  .case-hero--arena .case-hero__visual {
+    position: relative;
+    inset: auto;
+    min-height: 500px;
+    overflow: visible;
+  }
+  .case-hero--arena .case-hero__blob {
+    left: 5%;
+    top: 145px;
+    width: 66%;
+    height: 215px;
+  }
+  .case-hero--arena .case-hero__phones {
+    left: 0;
+    top: 70px;
+    width: 66%;
+    height: auto;
+  }
+  .case-hero--arena .case-hero__hand {
+    right: -2px;
+    bottom: 0;
+    width: 41%;
+    height: auto;
+  }
+}
+
+/* Project header has a reserved zone on mobile so the back control never hugs the case copy. */
+@media (max-width: 720px) {
+  .site-header__inner {
+    min-height: 72px;
+    padding-inline: 12px;
+  }
+  .back-button {
+    width: 40px;
+    height: 40px;
+    margin-left: 0;
+  }
+  .back-button svg { width: 24px; height: 24px; }
+
+  .case-hero--arena {
+    height: auto;
+    min-height: 0;
+  }
+  .case-hero--arena .case-hero__inner {
+    width: calc(100% - 32px);
+    min-height: 0;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding-top: 88px;
+    padding-bottom: 24px;
+  }
+  .case-hero--arena .case-hero__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100%, 360px);
+    padding: 0;
+    z-index: 3;
+  }
+  .case-hero--arena .case-hero__copy h1 { margin-top: 15px; font-size: clamp(28px, 8vw, 34px); }
+  .case-hero--arena .case-hero__copy > p {
+    width: min(100%, 340px);
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .case-hero--arena .case-hero__actions {
+    margin-top: 19px;
+    margin-bottom: 0;
+    gap: 8px;
+  }
+  .case-hero--arena .case-hero__visual {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 300px;
+    height: 300px;
+    margin-top: 18px;
+    overflow: visible;
+  }
+  .case-hero--arena .case-hero__blob {
+    left: 10%;
+    top: 60px;
+    width: 74%;
+    height: 185px;
+  }
+  .case-hero--arena .case-hero__phones {
+    left: 8%;
+    top: 4px;
+    width: 58%;
+    max-width: none;
+    height: auto;
+  }
+  .case-hero--arena .case-hero__hand {
+    right: -11px;
+    bottom: -2px;
+    width: 40%;
+    max-width: none;
+    height: auto;
+  }
+
+  .case-strip {
+    width: calc(100% - 32px);
+    margin-top: 0;
+    padding: 12px 13px;
+    gap: 8px;
+    font-size: 10.5px;
+    line-height: 1.48;
+  }
+  .case-strip > svg { width: 18px; height: 18px; }
+
+  /* Don't use vertical wheel conversion and don't hijack touch scrolling. */
+  .carousel__viewport { touch-action: pan-y pinch-zoom; }
+  .carousel { --carousel-gap: 10px; }
+  .carousel__track { padding-inline: 0; }
+  .carousel__item { flex-basis: 78vw; }
+  .carousel--before .carousel__item { flex-basis: 82vw; }
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item { flex-basis: 76vw; }
+  .carousel__controls { margin-top: 14px; }
+  .carousel__control { width: 46px; height: 38px; min-width: 46px; }
+
+  .pain-card div > svg { width: 18px; height: 18px; }
+  .objective-list div > svg { width: 20px; height: 20px; }
+  .process-steps div > svg { width: 18px; height: 18px; }
+}
+
+@media (max-width: 420px) {
+  .case-hero--arena .case-hero__inner { padding-top: 92px; }
+  .case-hero--arena .case-hero__visual { min-height: 285px; height: 285px; }
+  .case-hero--arena .case-hero__phones { width: 61%; left: 4%; }
+  .case-hero--arena .case-hero__hand { width: 42%; right: -13px; }
+  .case-hero--arena .case-hero__blob { left: 9%; width: 75%; height: 178px; top: 61px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel__item,
+  .carousel__control { transition: none !important; }
+}
+
+/* V6.1: final image-safety pass for the Home featured project. */
+@media (max-width: 720px) {
+  .featured-project {
+    min-height: 0;
+    height: auto;
+    display: grid;
+    grid-template-rows: auto auto;
+    overflow: hidden;
+  }
+  .featured-project__visual {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 300px;
+    margin-top: 14px;
+    padding: 0 12px 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .featured-project__phones {
+    position: relative;
+    inset: auto;
+    width: 58%;
+    min-width: 0;
+    max-width: 255px;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto 0 3%;
+  }
+  .featured-project__hand {
+    position: relative;
+    inset: auto;
+    width: 40%;
+    min-width: 0;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+    align-self: flex-end;
+    margin-left: -3%;
+  }
+}
+
+@media (min-width: 721px) {
+  .featured-project__visual { overflow: visible; }
+}
+
+/* =========================================================
+   V7 PROFESSIONAL PASS
+   - delivery hero video beside case information
+   - info chips are informational only
+   - safer mobile Arena artwork bounds
+   - carousel touch/desktop sizing refinements
+   - never wrap the project CTA label
+   ========================================================= */
+
+.text-button,
+.button,
+.case-hero__actions .button,
+.featured-project .text-button,
+.project-card__button {
+  white-space: nowrap;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 14px;
+  margin-top: 22px;
+}
+
+.project-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  color: #39353d;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.project-meta__item svg {
+  width: 22px;
+  height: 22px;
+  color: #171924;
+  flex: 0 0 auto;
+}
+
+.project-meta__item:nth-child(1) svg {
+  width: 19px;
+  height: 19px;
+}
+
+.project-meta__item:nth-child(2) svg,
+.project-meta__item:nth-child(3) svg {
+  width: 19px;
+  height: 19px;
+}
+
+.delivery-detail-hero {
+  width: min(100%, 600px);
+  justify-self: end;
+}
+
+.delivery-video-card {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #111;
+  box-shadow: 0 14px 34px rgba(27, 17, 38, .12);
+}
+
+.delivery-video-card video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3474 / 1810;
+  object-fit: cover;
+}
+
+@media (min-width: 981px) {
+  .case-hero--delivery-detail {
+    padding: 56px 0 26px;
+  }
+
+  .case-hero--delivery-detail .case-detail-shell {
+    min-height: 420px;
+    grid-template-columns: minmax(320px, .82fr) minmax(520px, 1.18fr);
+    gap: 58px;
+    align-items: center;
+  }
+
+  .case-hero--delivery-detail .case-detail-copy {
+    padding-left: 0;
+    padding-bottom: 4px;
+  }
+
+  .case-hero--delivery-detail .case-hero__actions {
+    margin-top: 20px;
+  }
+
+  .case-hero--delivery-detail .case-hero__actions .button {
+    min-height: 42px;
+    padding-inline: 22px;
+    font-size: 11px;
+  }
+
+  .home-projects__inner,
+  .home-about__inner,
+  .shell {
+    width: min(calc(100% - var(--gutter)), var(--max-content));
+  }
+}
+
+@media (min-width: 721px) {
+  .featured-project .text-button {
+    min-width: 148px;
+  }
+
+  .carousel__track {
+    gap: 8px;
+  }
+
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img {
+    max-height: 360px;
+  }
+}
+
+@media (max-width: 980px) {
+  .delivery-detail-hero {
+    width: min(100%, 560px);
+    justify-self: center;
+  }
+
+  .project-meta {
+    gap: 8px 13px;
+  }
+}
+
+@media (max-width: 720px) {
+  .project-meta {
+    margin-top: 20px;
+    gap: 10px 14px;
+  }
+
+  .project-meta__item {
+    min-height: 32px;
+    font-size: 11px;
+  }
+
+  .project-meta__item svg,
+  .project-meta__item:nth-child(1) svg,
+  .project-meta__item:nth-child(2) svg,
+  .project-meta__item:nth-child(3) svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .case-hero--delivery-detail {
+    overflow: visible;
+    padding-bottom: 34px;
+  }
+
+  .case-hero--delivery-detail .case-detail-shell {
+    padding-top: 92px;
+    padding-bottom: 0;
+    gap: 28px;
+  }
+
+  .case-hero--delivery-detail .case-detail-copy {
+    padding: 0;
+  }
+
+  .case-hero--delivery-detail .case-hero__actions {
+    margin-top: 18px;
+  }
+
+  .case-hero--delivery-detail .case-hero__actions .button {
+    min-height: 42px;
+    padding-inline: 20px;
+    font-size: 11px;
+  }
+
+  .delivery-detail-hero {
+    width: 100%;
+  }
+
+  .delivery-video-card {
+    border-radius: 12px;
+  }
+
+  .case-hero--arena,
+  .case-hero--arena .case-hero__inner,
+  .case-hero--arena .case-hero__visual {
+    overflow: visible;
+  }
+
+  .case-hero--arena .case-hero__visual {
+    min-height: 344px;
+    height: 344px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  .case-hero--arena .case-hero__blob {
+    top: 72px;
+    left: 10%;
+    width: 76%;
+    height: 192px;
+  }
+
+  .case-hero--arena .case-hero__phones {
+    top: 0;
+    left: 6%;
+    width: 58%;
+    max-width: 252px;
+  }
+
+  .case-hero--arena .case-hero__hand {
+    right: -8px;
+    bottom: 10px;
+    width: 42%;
+    max-width: 178px;
+  }
+
+  .carousel__viewport {
+    touch-action: pan-x pan-y pinch-zoom;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+  }
+
+  .carousel__item {
+    flex-basis: 79vw;
+  }
+
+  .carousel--before .carousel__item {
+    flex-basis: 82vw;
+  }
+
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex-basis: 76vw;
+  }
+}
+
+@media (max-width: 420px) {
+  .case-hero--arena .case-hero__visual {
+    min-height: 368px;
+    height: 368px;
+  }
+
+  .case-hero--arena .case-hero__phones {
+    width: 62%;
+    max-width: 250px;
+  }
+
+  .case-hero--arena .case-hero__hand {
+    width: 45%;
+    max-width: 176px;
+    bottom: 8px;
+  }
+
+  .featured-project .text-button {
+    min-width: 142px;
+    padding-inline: 17px;
+  }
+}
+
+/* V7.1 — use the exact exported icon artwork supplied with the Figma file. */
+.hero-socials img {
+  display: block;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.home-about__tools .tool-mark {
+  width: auto;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-about__tools .tool-mark img {
+  width: auto;
+  height: 34px;
+  max-width: 43px;
+  object-fit: contain;
+}
+
+.home-about__tools .tool-mark:nth-child(1) img {
+  height: 38px;
+  max-width: 29px;
+}
+
+.home-about__tools .tool-mark:nth-child(2) img {
+  height: 34px;
+  max-width: 36px;
+}
+
+.home-about__tools .tool-mark:nth-child(3) img {
+  height: 36px;
+  max-width: 36px;
+}
+
+.trait-icon {
+  overflow: visible;
+}
+
+.trait-icon img {
+  display: block;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.footer-contact__icon {
+  background: transparent;
+}
+
+.footer-contact__icon img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.project-meta--images {
+  align-items: center;
+  gap: 8px;
+}
+
+.project-meta--images > img {
+  display: block;
+  width: auto;
+  height: 38px;
+  flex: 0 0 auto;
+}
+
+.delivery-title-bee {
+  display: inline-block;
+  width: 31px;
+  height: 35px;
+  object-fit: contain;
+  vertical-align: -7px;
+  margin-left: 4px;
+}
+
+@media (max-width: 720px) {
+  .hero-socials img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .home-about__tools .tool-mark {
+    height: 40px;
+  }
+
+  .home-about__tools .tool-mark img {
+    height: 32px;
+  }
+
+  .home-about__tools .tool-mark:nth-child(1) img {
+    height: 35px;
+  }
+
+  .project-meta--images {
+    justify-content: flex-start;
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+  }
+
+  .project-meta--images::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-meta--images > img {
+    height: 38px;
+  }
+
+  .delivery-title-bee {
+    width: 28px;
+    height: 31px;
+    vertical-align: -6px;
+  }
+}
+
+/* Consistent Figma-style arrow/download icon sizing. */
+.text-button svg,
+.button svg,
+.header-cta svg,
+.site-footer__cta svg,
+.flow-action svg,
+.resume-button svg,
+.mobile-menu a svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+.resume-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.mobile-menu a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+/* V7.2 — final responsive polish for exact project chips and Arena artwork. */
+.project-meta--images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  overflow: visible;
+  max-width: 100%;
+}
+
+.project-meta--images picture {
+  display: block;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.project-meta--images picture img {
+  display: block;
+  width: auto;
+  height: 38px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@media (min-width: 721px) {
+  .case-hero--arena .case-hero__visual {
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 720px) {
+  .project-meta--images {
+    flex-wrap: wrap;
+    gap: 7px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .project-meta--images picture {
+    max-width: 100%;
+  }
+
+  .project-meta--images picture img {
+    height: 38px;
+    max-width: min(100%, 245px);
+  }
+
+  .case-hero--arena .case-hero__visual {
+    min-height: 392px;
+    height: 392px;
+    margin-top: 22px;
+  }
+
+  .case-hero--arena .case-hero__phones {
+    width: min(72%, 290px);
+    left: 3%;
+    top: 0;
+  }
+
+  .case-hero--arena .case-hero__hand {
+    width: min(52%, 198px);
+    right: -4px;
+    bottom: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .case-hero--arena .case-hero__visual {
+    min-height: 420px;
+    height: 420px;
+  }
+
+  .case-hero--arena .case-hero__phones {
+    width: min(79%, 286px);
+    left: 1%;
+  }
+
+  .case-hero--arena .case-hero__hand {
+    width: min(55%, 194px);
+    right: -5px;
+    bottom: 0;
+  }
+}

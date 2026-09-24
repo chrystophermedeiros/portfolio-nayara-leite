@@ -3,6 +3,7 @@ import { FIGMA_URL } from '../lib/router'
 import Carousel from '../components/Carousel'
 import { LinkButton } from '../components/Button'
 import Tag from '../components/Tag'
+import { ArrowUpRightIcon } from '../components/Icons'
 
 const screens = [
   ['/assets/splendore-screen-1.png', 'Seu pedido'],
@@ -36,7 +37,7 @@ function PurchaseFlow() {
           <div className="flow-summary-line"><span>Tamanho</span><strong>38</strong></div>
           <div className="flow-summary-line"><span>Entrega</span><strong>23 de Julho de 2026</strong></div>
           <div className="flow-summary-line"><span>Total</span><strong>R$ 249,47</strong></div>
-          <button className="flow-action" onClick={() => setConfirmed(true)}>Finalizar compra ↗</button>
+          <button className="flow-action" onClick={() => setConfirmed(true)}>Finalizar compra <ArrowUpRightIcon aria-hidden="true" /></button>
         </div>
       )}
     </div>
@@ -52,7 +53,7 @@ export default function SplendorePage() {
             <Tag>UI DESIGN · MOBILE</Tag>
             <h1>Splendore</h1>
             <p>E-commerce de tênis com navegação intuitiva e experiência de compra fluida.</p>
-            <div className="case-hero__actions"><LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Abrir projeto no Figma <span aria-hidden="true">↗</span></LinkButton></div>
+            <div className="case-hero__actions"><LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Abrir projeto no Figma <ArrowUpRightIcon aria-hidden="true" /></LinkButton></div>
           </div>
           <div className="splendore-detail-hero"><img src="/assets/splendore-hero.png" alt="Colagem principal do Splendore" /></div>
         </div>

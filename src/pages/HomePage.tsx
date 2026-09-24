@@ -1,25 +1,26 @@
 import { go } from '../lib/router'
 import ProjectCard from '../components/ProjectCard'
+import { ArrowUpRightIcon, DownloadIcon, FocusIcon } from '../components/Icons'
 import { projects } from '../data/projects'
-
-function ArrowIcon() {
-  return <span aria-hidden="true">↗</span>
-}
 
 function SocialLinks() {
   return (
     <div className="hero-socials" aria-label="Redes e contato">
       <a href="https://www.linkedin.com/in/nayara-leite-083262205" target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 9.5v9M6.5 6.5v.1M11 18.5v-9m0 3.1c.7-2.7 6.5-4.2 6.5 1.6v4.3" /></svg>
+        <img src="/assets/icons/linkedin.svg" alt="" aria-hidden="true" />
       </a>
-      <a href="https://www.behance.net/" target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label="Behance"><span className="hero-socials__be">Bē</span></a>
-      <a href="mailto:nayaradesigner1@gmail.com" aria-label="E-mail"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5h18v11H3z" /><path d="m4 7.5 8 6 8-6" /></svg></a>
+      <a href="https://www.behance.net/nayaraleite9" target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer" aria-label="Behance">
+        <img src="/assets/icons/behance.svg" alt="" aria-hidden="true" />
+      </a>
+      <a href="mailto:nayaradesigner1@gmail.com" aria-label="E-mail">
+        <img src="/assets/icons/email.svg" alt="" aria-hidden="true" />
+      </a>
     </div>
   )
 }
 
 export default function HomePage() {
-  const [arena, app, splendore] = projects
+  const [, app, splendore] = projects
   return (
     <div className="home-page">
       <section className="home-hero">
@@ -43,7 +44,7 @@ export default function HomePage() {
             <p className="eyebrow">PROJETO EM DESTAQUE</p>
             <h2>Arena Sun7</h2>
             <p className="featured-project__desc">Redesign da plataforma de agendamento de quadras esportivas. Melhorando a navegação, a organização das informações e a experiência de reserva.</p>
-            <span className="text-button">Ver projeto <ArrowIcon /></span>
+            <span className="text-button">Ver projeto <ArrowUpRightIcon /></span>
           </div>
           <div className="featured-project__visual" aria-hidden="true">
             <img src="/assets/arena-hero-trim.png" alt="" className="featured-project__phones" />
@@ -69,19 +70,19 @@ export default function HomePage() {
             <p className="eyebrow">SOBRE MIM</p>
             <h2>Prazer, sou a<br />Nayara Leite <span aria-hidden="true">✦</span></h2>
             <p>Gosto de transformar ideias em interfaces que fazem sentido. Acredito que o designer tem o poder de simplificar, conectar e melhorar a vidas das pessoas.</p>
-            <a className="resume-button" href="/Curriculo_Nayara_Leite_UI_UX.pdf" download>Baixar currículo <span aria-hidden="true">↓</span></a>
+            <a className="resume-button" href="/Curriculo_Nayara_Leite_UI_UX.pdf" download>Baixar currículo <DownloadIcon aria-hidden="true" /></a>
             <p className="home-about__tools-label">FERRAMENTAS</p>
             <div className="home-about__tools" aria-label="Ferramentas">
-              <span className="tool-mark tool-mark--figma">F</span>
-              <span className="tool-mark tool-mark--notion">N</span>
-              <span className="tool-mark tool-mark--miro">M</span>
+              <span className="tool-mark" aria-label="Figma"><img src="/assets/icons/figma.svg" alt="" aria-hidden="true" /></span>
+              <span className="tool-mark" aria-label="Notion"><img src="/assets/icons/notion.svg" alt="" aria-hidden="true" /></span>
+              <span className="tool-mark" aria-label="Miro"><img src="/assets/icons/miro.svg" alt="" aria-hidden="true" /></span>
             </div>
           </div>
           <div className="home-about__divider" aria-hidden="true" />
           <div className="home-about__traits">
-            <div className="trait trait--top"><span className="trait-icon trait-icon--leaf" aria-hidden="true">⌁</span><span>Curiosa e sempre<br />aprendendo</span></div>
-            <div className="trait trait--top"><span className="trait-icon" aria-hidden="true">▯</span><span>Clareza, organização<br />e funcionalidade</span></div>
-            <div className="trait trait--wide"><span className="trait-icon" aria-hidden="true">◴</span><span>Focada em UI / UX Designer</span></div>
+            <div className="trait trait--top"><span className="trait-icon" aria-hidden="true"><img src="/assets/icons/leaf.svg" alt="" /></span><span>Curiosa e sempre<br />aprendendo</span></div>
+            <div className="trait trait--top"><span className="trait-icon" aria-hidden="true"><img src="/assets/icons/clarity.svg" alt="" /></span><span>Clareza, organização<br />e funcionalidade</span></div>
+            <div className="trait trait--wide"><span className="trait-icon" aria-hidden="true"><FocusIcon /></span><span>Focada em UI / UX Designer</span></div>
           </div>
         </div>
       </section>

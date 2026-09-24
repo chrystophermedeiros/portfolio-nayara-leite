@@ -1,5 +1,6 @@
 import { go } from '../lib/router'
 import type { Project } from '../data/projects'
+import { ArrowUpRightIcon } from './Icons'
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
@@ -10,7 +11,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className="project-card__copy">
         <h3>{project.title}</h3>
         <p>{project.description}</p>
-        <button onClick={() => go(`/projetos/${project.slug}`)} className="text-button project-card__button">Ver projeto <span aria-hidden="true">↗</span></button>
+        <button onClick={() => go(`/projetos/${project.slug}`)} className="text-button project-card__button">Ver projeto <ArrowUpRightIcon aria-hidden="true" /></button>
       </div>
     </article>
   )
