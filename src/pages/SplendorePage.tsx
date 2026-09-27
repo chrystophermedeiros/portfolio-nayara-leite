@@ -1,9 +1,6 @@
 import { useState } from 'react'
-import { FIGMA_URL } from '../lib/router'
 import Carousel from '../components/Carousel'
-import { LinkButton } from '../components/Button'
 import Tag from '../components/Tag'
-import { ArrowUpRightIcon } from '../components/Icons'
 
 const screens = [
   ['/assets/splendore-screen-1.png', 'Seu pedido'],
@@ -53,7 +50,6 @@ export default function SplendorePage() {
             <Tag>UI DESIGN · MOBILE</Tag>
             <h1>Splendore</h1>
             <p>E-commerce de tênis com navegação intuitiva e experiência de compra fluida.</p>
-            <div className="case-hero__actions"><LinkButton href={FIGMA_URL} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">Abrir projeto no Figma <ArrowUpRightIcon aria-hidden="true" /></LinkButton></div>
           </div>
           <div className="splendore-detail-hero"><img src="/assets/splendore-hero.png" alt="Colagem principal do Splendore" /></div>
         </div>

@@ -23,7 +23,16 @@ type Gesture = {
 
 export default function Carousel({ images, visible = 3, className = '' }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null)
-  const gesture = useRef<Gesture>({ active: false, startX: 0, startY: 0, startScroll: 0, axis: 'none', pointerId: -1, moved: false, pointerType: '' })
+  const gesture = useRef<Gesture>({
+    active: false,
+    startX: 0,
+    startY: 0,
+    startScroll: 0,
+    axis: 'none',
+    pointerId: -1,
+    moved: false,
+    pointerType: '',
+  })
   const suppressClick = useRef(false)
   const [active, setActive] = useState<ImageItem | null>(null)
   const [canPrev, setCanPrev] = useState(false)
@@ -82,7 +91,7 @@ export default function Carousel({ images, visible = 3, className = '' }: Props)
     if (!el) return
     const pointerType = event.pointerType || 'mouse'
     gesture.current = {
-      active: pointerType !== 'touch',
+      active: true,
       startX: event.clientX,
       startY: event.clientY,
       startScroll: el.scrollLeft,
@@ -98,24 +107,30 @@ export default function Carousel({ images, visible = 3, className = '' }: Props)
   const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     const el = viewportRef.current
     const g = gesture.current
-    if (!el || !g.active || g.pointerType === 'touch') return
+    if (!el || !g.active) return
 
     const dx = event.clientX - g.startX
     const dy = event.clientY - g.startY
+    const distance = Math.max(Math.abs(dx), Math.abs(dy))
 
     if (g.axis === 'none') {
-      if (Math.max(Math.abs(dx), Math.abs(dy)) < 10) return
-      g.axis = Math.abs(dx) > Math.abs(dy) * 1.35 ? 'x' : 'y'
+      if (distance < 8) return
+      g.axis = Math.abs(dx) > Math.abs(dy) * 1.18 ? 'x' : 'y'
+
       if (g.axis === 'x') {
         g.moved = true
-        try { el.setPointerCapture(event.pointerId) } catch { /* pointer capture is optional */ }
+        try { el.setPointerCapture(event.pointerId) } catch { /* optional */ }
         el.classList.add('is-dragging')
       } else {
-        el.classList.remove('is-dragging')
+        // Vertical intent is deliberately ignored, so the page keeps scrolling.
+        g.active = false
+        el.classList.remove('is-dragging', 'is-pointer-down')
+        return
       }
     }
 
     if (g.axis !== 'x') return
+
     event.preventDefault()
     el.scrollLeft = g.startScroll - dx
   }
@@ -124,7 +139,7 @@ export default function Carousel({ images, visible = 3, className = '' }: Props)
     const el = viewportRef.current
     const g = gesture.current
     if (!el) return
-    if (g.pointerType !== 'touch' && g.axis === 'x' && el.hasPointerCapture(event.pointerId)) el.releasePointerCapture(event.pointerId)
+    if (el.hasPointerCapture(event.pointerId)) el.releasePointerCapture(event.pointerId)
     suppressClick.current = g.moved
     gesture.current.active = false
     gesture.current.axis = 'none'

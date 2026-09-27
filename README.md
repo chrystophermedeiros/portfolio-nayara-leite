@@ -70,3 +70,8 @@ npm run dev
 - Assets transparentes do hero do Arena e dos cards foram aparados pelo alpha para evitar cortes visuais.
 - Foto principal da Home preserva a composição completa em desktop e mobile.
 - Carrosséis possuem botões abaixo para avançar/voltar, além de arrastar, swipe e scroll horizontal.
+
+
+## Refinamento responsivo 1.8.0
+
+A versão atual usa o próprio código deste pacote como base. Os carrosséis permitem navegação horizontal por toque/arraste e preservam a rolagem vertical da página. Em páginas de projeto, o botão flutuante “Home” aparece após o usuário avançar no conteúdo.

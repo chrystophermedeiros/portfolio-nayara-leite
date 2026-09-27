@@ -1898,3 +1898,351 @@ svg { display: block; }
     min-width: 0;
   }
 }
+
+/* =========================================================
+   V11 FINAL RESPONSIVE REFINEMENT — based only on current source
+   - horizontal touch drag without stealing vertical page scrolling
+   - tighter galleries on non-mobile widths
+   - stable 50/50 About layout for tablet and larger screens
+   - resilient tablet Arena hero composition
+   - resilient Delivery challenge card
+   - larger typography and content scale on large screens
+   - floating Home action on project pages
+   ========================================================= */
+
+/* Global content safety for all responsive widths. */
+main,
+.project-page,
+.home-page,
+.case-section,
+.case-shell,
+.shell,
+.case-detail-shell,
+.home-projects__inner,
+.home-about__inner,
+.delivery-project-grid,
+.splendore-overview {
+  min-width: 0;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}
+
+/* Carousel interaction: horizontal swipes are handled by JS, vertical swipes stay with the document. */
+.carousel__viewport {
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.carousel__viewport::-webkit-scrollbar { display: none; }
+.carousel__item { touch-action: pan-y pinch-zoom; }
+.carousel__track { width: max-content; }
+.carousel__controls { position: relative; z-index: 2; }
+
+@media (min-width: 721px) {
+  .carousel { --carousel-gap: 8px; }
+  .carousel__track { gap: 8px; }
+
+  .carousel--before .carousel__item,
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    min-width: 0;
+  }
+}
+
+/* Tablet: preserve the visual card, but make only the inner Arena artwork responsive. */
+@media (min-width: 721px) and (max-width: 1199px) {
+  .project-page--arena .case-hero--arena {
+    height: auto;
+    min-height: 560px;
+    overflow: hidden;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__inner {
+    width: min(calc(100% - var(--gutter)), var(--max-content));
+    min-height: 560px;
+    height: auto;
+    grid-template-columns: minmax(0, 40%) minmax(0, 60%);
+    align-items: stretch;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__copy {
+    min-width: 0;
+    padding-right: 24px;
+    box-sizing: border-box;
+    z-index: 4;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__visual {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-width: 0;
+    min-height: 560px;
+    height: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(128px, .8fr);
+    align-items: end;
+    column-gap: clamp(4px, .7vw, 12px);
+    padding: 78px 0 18px 0;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__blob {
+    left: 2%;
+    top: 118px;
+    width: 69%;
+    height: 278px;
+    z-index: 0;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__phones {
+    position: relative;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: auto;
+    max-width: 340px;
+    max-height: 410px;
+    justify-self: start;
+    align-self: end;
+    z-index: 2;
+    object-fit: contain;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__hand {
+    position: relative;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: auto;
+    max-width: 250px;
+    max-height: 280px;
+    justify-self: end;
+    align-self: end;
+    z-index: 2;
+    object-fit: contain;
+  }
+
+  /* At narrower tablets, stack the three About traits vertically inside the right half. */
+  .home-about__inner {
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    gap: clamp(22px, 3vw, 42px);
+  }
+
+  .home-about__copy,
+  .home-about__traits {
+    min-width: 0;
+  }
+
+  .home-about__traits {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+    column-gap: 0;
+  }
+
+  .home-about__traits .trait,
+  .home-about__traits .trait--wide {
+    grid-column: auto;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .home-about__traits .trait-icon {
+    flex: 0 0 50px;
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    min-height: 50px;
+  }
+
+  .home-about__traits .trait-icon img,
+  .home-about__traits .trait-icon svg {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+  }
+
+  .home-about__traits .trait span:last-child {
+    min-width: 0;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  /* Delivery: never let a tablet column push beyond the viewport. */
+  .project-page--delivery .delivery-project-grid {
+    width: min(calc(100% - var(--gutter)), var(--max-content));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 36px);
+    box-sizing: border-box;
+  }
+
+  .project-page--delivery .delivery-project-grid > * {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .project-page--delivery .delivery-project-grid > div:first-child {
+    padding-left: 0;
+  }
+
+  .project-page--delivery .delivery-project-grid p:not(.eyebrow) {
+    width: auto;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .project-page--delivery .delivery-highlight {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: clamp(18px, 2.2vw, 24px);
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+
+  .project-page--delivery .delivery-highlight h3,
+  .project-page--delivery .delivery-highlight p {
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Tablet portrait and compact tablet: make Arena artwork a little taller/larger without touching the outer card. */
+@media (min-width: 721px) and (max-width: 860px) {
+  .project-page--arena .case-hero--arena,
+  .project-page--arena .case-hero--arena .case-hero__inner {
+    min-height: 590px;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__visual {
+    min-height: 590px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(118px, .75fr);
+    padding-top: 90px;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__blob {
+    top: 125px;
+    height: 292px;
+    width: 71%;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__phones {
+    max-height: 390px;
+  }
+
+  .project-page--arena .case-hero--arena .case-hero__hand {
+    max-height: 250px;
+  }
+}
+
+/* Larger desktop: make the whole composition breathe more instead of looking undersized. */
+@media (min-width: 1200px) {
+  :root {
+    --max-content: 1240px;
+    --gutter: 72px;
+    --carousel-gap: 9px;
+  }
+
+  .home-hero__copy h1 { font-size: clamp(46px, 4.2vw, 58px); }
+  .home-hero__role { font-size: 14px; }
+  .home-hero__body { font-size: 15px; line-height: 1.55; }
+  .home-hero__contact > span { font-size: 12px; }
+  .featured-project__copy h2 { font-size: 31px; }
+  .featured-project__desc { width: 360px; font-size: 14px; line-height: 1.5; }
+  .project-card__copy h3 { font-size: clamp(26px, 2vw, 31px); }
+  .project-card__copy p { font-size: 13px; }
+  .home-about__inner { min-height: 430px; padding-inline: 78px; }
+  .home-about__copy h2 { font-size: clamp(35px, 2.5vw, 41px); }
+  .home-about__copy > p:not(.eyebrow):not(.home-about__tools-label) { font-size: 15px; line-height: 1.55; }
+  .trait span:last-child { font-size: 15px; }
+
+  .case-hero--arena .case-hero__inner {
+    min-height: 560px;
+  }
+
+  .case-hero--arena .case-hero__visual {
+    min-height: 560px;
+  }
+
+  .case-hero--arena .case-hero__phones {
+    width: 315px;
+  }
+
+  .case-hero--arena .case-hero__hand {
+    width: 250px;
+  }
+
+  .carousel__track { gap: 9px; }
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img { max-height: 390px; }
+}
+
+/* Project-page floating Home control. */
+.scroll-home-fab {
+  position: fixed;
+  right: clamp(16px, 3vw, 28px);
+  bottom: clamp(16px, 3vw, 28px);
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 16px 0 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: var(--brand-dark);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(48, 28, 72, .22);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.scroll-home-fab svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.scroll-home-fab:hover {
+  transform: translateY(-2px);
+  background: var(--brand);
+  box-shadow: 0 15px 30px rgba(48, 28, 72, .28);
+}
+
+@media (max-width: 720px) {
+  .scroll-home-fab {
+    min-height: 40px;
+    padding-inline: 13px;
+    font-size: 10px;
+  }
+
+  .scroll-home-fab svg { width: 17px; height: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-home-fab { transition: none; }
+}
