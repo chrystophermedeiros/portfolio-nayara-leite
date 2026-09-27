@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import SiteHeader from './components/SiteHeader'
 import SiteFooter from './components/SiteFooter'
-import { ChevronLeftIcon } from './components/Icons'
+import { ArrowUpIcon } from './components/Icons'
 import { useRoute } from './lib/router'
 import HomePage from './pages/HomePage'
 import ArenaPage from './pages/ArenaPage'
@@ -19,7 +19,7 @@ export default function App() {
   }, [route])
 
   useEffect(() => {
-    if (route.name !== 'project') {
+    if (route.name !== 'home' && route.name !== 'project') {
       setShowHomeFab(false)
       return
     }
@@ -47,10 +47,10 @@ export default function App() {
         {route.name === 'project' && route.slug === 'splendore' && <SplendorePage />}
       </main>
       <SiteFooter />
-      {route.name === 'project' && showHomeFab && (
+      {(route.name === 'home' || route.name === 'project') && showHomeFab && (
         <button type="button" className="scroll-home-fab" onClick={goHome} aria-label="Voltar para a página inicial">
-          <ChevronLeftIcon aria-hidden="true" />
-          <span>Home</span>
+          <ArrowUpIcon aria-hidden="true" />
+          
         </button>
       )}
     </>

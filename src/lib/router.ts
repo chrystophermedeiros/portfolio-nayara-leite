@@ -4,7 +4,7 @@ export type Route =
   | { name: 'home' }
   | { name: 'project'; slug: 'arena' | 'app-delivery' | 'splendore' }
 
-export const FIGMA_URL = 'https://www.figma.com/proto/PdnpkEPBK5ShBmMkZZB09B/Nayara-Leite?node-id=4-3&starting-point-node-id=4%3A3&t=ObOTXez21wIveNdU-1'
+export const FIGMA_URL = 'https://www.figma.com/proto/rBU1jPTztyRI2amDLb5Vsn/Food-app?node-id=47-1381&t=d7QGhcRpbH658wJe-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=47%3A1381&show-proto-sidebar=1'
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/nayara-leite-083262205'
 export const MIRO_URL = 'https://miro.com/app/board/uXjVHPYKlI4=/?share_link_id=961840426543'
 

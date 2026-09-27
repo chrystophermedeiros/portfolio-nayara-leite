@@ -38,6 +38,7 @@ export default function HomePage() {
       </section>
 
       <section id="projetos" className="home-projects anchor-offset">
+        
         <div className="shell home-projects__inner">
         <button className="featured-project" onClick={() => go('/projetos/arena')} aria-label="Abrir o projeto Arena Sun7">
           <div className="featured-project__copy">
@@ -68,7 +69,7 @@ export default function HomePage() {
         <div className="shell home-about__inner">
           <div className="home-about__copy">
             <p className="eyebrow">SOBRE MIM</p>
-            <h2>Prazer, sou a<br />Nayara Leite <span aria-hidden="true">✦</span></h2>
+            <h2>Prazer, sou a<br /><span className="home-about__name">Nayara Leite <span className="tool-mark" aria-label="Figma"><img src="/assets/icons/estrela.svg" alt="" aria-hidden="true" /></span></span></h2>
             <p>Gosto de transformar ideias em interfaces que fazem sentido. Acredito que o designer tem o poder de simplificar, conectar e melhorar a vidas das pessoas.</p>
             <a className="resume-button" href="/Curriculo_Nayara_Leite_UI_UX.pdf" download>Baixar currículo <DownloadIcon aria-hidden="true" /></a>
             <p className="home-about__tools-label">FERRAMENTAS</p>

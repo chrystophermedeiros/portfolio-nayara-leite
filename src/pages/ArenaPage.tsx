@@ -8,6 +8,7 @@ const beforeImages = [
   ['/assets/arena-before-1.png', 'Tela anterior — perfil e agenda'],
   ['/assets/arena-before-2.png', 'Tela anterior — apresentação'],
   ['/assets/arena-before-3.png', 'Tela anterior — menu de opções'],
+  ['/assets/arena-before-4.png', 'Tela anterior — menu de opções'],
 ]
 
 const finalImages = [

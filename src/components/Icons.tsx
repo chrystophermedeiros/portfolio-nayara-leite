@@ -24,6 +24,10 @@ export function ChevronLeftIcon(props: IconProps) {
   return <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}><path d="m14.5 5-7 7 7 7"/></svg>
 }
 
+export function ArrowUpIcon(props: IconProps) {
+  return <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}><path d="M12 18V6"/><path d="m7.5 10.5 4.5-4.5 4.5 4.5"/></svg>
+}
+
 export function ChevronRightIcon(props: IconProps) {
   return <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}><path d="m9.5 5 7 7-7 7"/></svg>
 }

@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import Carousel from '../components/Carousel'
 import Tag from '../components/Tag'
+import { ArrowUpRightIcon } from '../components/Icons'
 
 const screens = [
-  ['/assets/splendore-screen-1.png', 'Seu pedido'],
-  ['/assets/splendore-screen-2.png', 'Produto'],
-  ['/assets/splendore-screen-3.png', 'Carrinho'],
-  ['/assets/splendore-screen-4.png', 'Pagamento'],
+  ['/assets/splendore-screen-1.png', 'Login ou cadastro'],
+  ['/assets/splendore-screen-2.png', 'Home com produtos'],
+  ['/assets/splendore-screen-3.png', 'Carrinho Vazio'],
+  ['/assets/splendore-screen-4.png', 'Seleção de produto'],
+  ['/assets/splendore-screen-5.png', 'Carrinho com produto'],
+  ['/assets/splendore-screen-6.png', 'Criar conta'],
+  ['/assets/splendore-screen-7.png', 'Perfil do usuário'],
 ]
 const mapScreens = screens.map(([src, alt]) => ({ src, alt }))
 
@@ -51,8 +55,26 @@ export default function SplendorePage() {
             <h1>Splendore</h1>
             <p>E-commerce de tênis com navegação intuitiva e experiência de compra fluida.</p>
           </div>
+
           <div className="splendore-detail-hero"><img src="/assets/splendore-hero.png" alt="Colagem principal do Splendore" /></div>
+
+          <div className="project-meta project-meta--images" aria-label="Informações do projeto">
+            
+            <picture>
+              <source media="(max-width: 720px)" srcSet="/assets/icons/app-mobile-compact.svg" />
+              <img src="/assets/icons/app-mobile.svg" alt="Aplicativo mobile" />
+            </picture>
+            <picture>
+              <source media="(max-width: 720px)" srcSet="/assets/icons/figma-chip-compact.svg" />
+              <img src="/assets/icons/figma-chip.svg" alt="Figma" />
+            </picture>
+
+          </div>
+
         </div>
+
+
+
       </section>
 
       <main className="case-detail-body">
@@ -61,9 +83,15 @@ export default function SplendorePage() {
             <p className="eyebrow">SOBRE O PROJETO</p>
             <h2>Objetivo</h2>
             <p>Construir um e-commerce mobile visualmente leve, com navegação clara e etapas de compra fáceis de entender.</p>
+
             <div className="tag-row"><Tag>Figma</Tag><Tag>Mobile</Tag><Tag>E-commerce</Tag></div>
+
+            <p><li >Projeto de interface, sem protótio interativo</li></p>
           </div>
-          
+
+
+
+
         </section>
 
         <section className="case-shell splendore-screens-section">
@@ -72,7 +100,7 @@ export default function SplendorePage() {
           <Carousel images={mapScreens} visible={3} className="carousel--splendore" />
         </section>
 
-        
+
       </main>
     </div>
   )

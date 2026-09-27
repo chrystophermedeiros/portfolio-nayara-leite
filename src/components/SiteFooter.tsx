@@ -30,7 +30,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="site-footer__meta">
-          <span>2024 Nayara Leite. Todos os direitos reservados.</span>
+          <span>© 2026 Nayara Leite. Todos os direitos reservados.</span>
         </div>
       </div>
     </footer>

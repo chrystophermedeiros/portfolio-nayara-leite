@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons'
 
-type ImageItem = { src: string; alt: string }
+type ImageItem = {
+  src: string
+  alt: string
+}
 
 type Props = {
   images: ImageItem[]
@@ -21,8 +24,13 @@ type Gesture = {
   pointerType: string
 }
 
-export default function Carousel({ images, visible = 3, className = '' }: Props) {
+export default function Carousel({
+  images,
+  visible = 3,
+  className = '',
+}: Props) {
   const viewportRef = useRef<HTMLDivElement>(null)
+
   const gesture = useRef<Gesture>({
     active: false,
     startX: 0,
@@ -33,63 +41,71 @@ export default function Carousel({ images, visible = 3, className = '' }: Props)
     moved: false,
     pointerType: '',
   })
-  const suppressClick = useRef(false)
-  const [active, setActive] = useState<ImageItem | null>(null)
+
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(false)
 
   const syncControls = () => {
     const el = viewportRef.current
+
     if (!el) return
-    const max = Math.max(0, el.scrollWidth - el.clientWidth)
+
+    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth)
+
     setCanPrev(el.scrollLeft > 4)
-    setCanNext(max - el.scrollLeft > 4)
+    setCanNext(maxScroll - el.scrollLeft > 4)
   }
 
   useEffect(() => {
     const el = viewportRef.current
+
     if (!el) return
+
     const update = () => syncControls()
+
     update()
+
     el.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
+
     return () => {
       el.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
     }
   }, [images.length, visible])
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (!active) return
-      const index = images.findIndex((item) => item.src === active.src)
-      if (event.key === 'Escape') setActive(null)
-      if (event.key === 'ArrowRight') setActive(images[(index + 1) % images.length])
-      if (event.key === 'ArrowLeft') setActive(images[(index - 1 + images.length) % images.length])
-    }
-    document.addEventListener('keydown', onKey)
-    const previousOverflow = document.body.style.overflow
-    if (active) document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = previousOverflow
-    }
-  }, [active, images])
-
   const move = (direction: -1 | 1) => {
     const el = viewportRef.current
+
     if (!el) return
+
     const first = el.querySelector<HTMLElement>('.carousel__item')
     const track = el.querySelector<HTMLElement>('.carousel__track')
-    const gap = track ? (parseFloat(getComputedStyle(track).gap) || 0) : 0
-    const amount = Math.max(180, (first?.offsetWidth ?? el.clientWidth * 0.42) + gap)
-    el.scrollBy({ left: direction * amount, behavior: 'smooth' })
+
+    const gap = track
+      ? parseFloat(getComputedStyle(track).gap) || 0
+      : 0
+
+    const amount = Math.max(
+      180,
+      (first?.offsetWidth ?? el.clientWidth * 0.42) + gap,
+    )
+
+    el.scrollBy({
+      left: direction * amount,
+      behavior: 'smooth',
+    })
   }
 
-  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+  const onPointerDown = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
     const el = viewportRef.current
+
     if (!el) return
+
     const pointerType = event.pointerType || 'mouse'
+
     gesture.current = {
       active: true,
       startX: event.clientX,
@@ -100,103 +116,155 @@ export default function Carousel({ images, visible = 3, className = '' }: Props)
       moved: false,
       pointerType,
     }
-    suppressClick.current = false
-    if (pointerType !== 'touch') el.classList.add('is-pointer-down')
+
+    if (pointerType !== 'touch') {
+      el.classList.add('is-pointer-down')
+    }
   }
 
-  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+  const onPointerMove = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
     const el = viewportRef.current
-    const g = gesture.current
-    if (!el || !g.active) return
+    const currentGesture = gesture.current
 
-    const dx = event.clientX - g.startX
-    const dy = event.clientY - g.startY
-    const distance = Math.max(Math.abs(dx), Math.abs(dy))
+    if (!el || !currentGesture.active) return
 
-    if (g.axis === 'none') {
+    const dx = event.clientX - currentGesture.startX
+    const dy = event.clientY - currentGesture.startY
+
+    const absX = Math.abs(dx)
+    const absY = Math.abs(dy)
+    const distance = Math.max(absX, absY)
+
+    if (currentGesture.axis === 'none') {
       if (distance < 8) return
-      g.axis = Math.abs(dx) > Math.abs(dy) * 1.18 ? 'x' : 'y'
 
-      if (g.axis === 'x') {
-        g.moved = true
-        try { el.setPointerCapture(event.pointerId) } catch { /* optional */ }
+      /*
+       * Só assumimos controle horizontal quando o movimento
+       * realmente for predominantemente horizontal.
+       */
+      currentGesture.axis =
+        absX > absY * 1.18
+          ? 'x'
+          : 'y'
+
+      if (currentGesture.axis === 'x') {
+        currentGesture.moved = true
+
+        try {
+          el.setPointerCapture(event.pointerId)
+        } catch {
+          // Pointer capture é opcional.
+        }
+
         el.classList.add('is-dragging')
       } else {
-        // Vertical intent is deliberately ignored, so the page keeps scrolling.
-        g.active = false
-        el.classList.remove('is-dragging', 'is-pointer-down')
+        /*
+         * Movimento vertical:
+         * não interfere no scroll da página.
+         */
+        currentGesture.active = false
+
+        el.classList.remove(
+          'is-dragging',
+          'is-pointer-down',
+        )
+
         return
       }
     }
 
-    if (g.axis !== 'x') return
+    if (currentGesture.axis !== 'x') return
 
+    /*
+     * Somente o gesto horizontal recebe preventDefault.
+     * Scroll vertical da página continua livre.
+     */
     event.preventDefault()
-    el.scrollLeft = g.startScroll - dx
+
+    el.scrollLeft = currentGesture.startScroll - dx
   }
 
-  const onPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+  const onPointerEnd = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
     const el = viewportRef.current
-    const g = gesture.current
+    const currentGesture = gesture.current
+
     if (!el) return
-    if (el.hasPointerCapture(event.pointerId)) el.releasePointerCapture(event.pointerId)
-    suppressClick.current = g.moved
-    gesture.current.active = false
-    gesture.current.axis = 'none'
-    gesture.current.pointerId = -1
-    el.classList.remove('is-dragging', 'is-pointer-down')
-    window.setTimeout(() => { suppressClick.current = false }, 60)
+
+    if (el.hasPointerCapture(event.pointerId)) {
+      el.releasePointerCapture(event.pointerId)
+    }
+
+    currentGesture.active = false
+    currentGesture.axis = 'none'
+    currentGesture.pointerId = -1
+
+    el.classList.remove(
+      'is-dragging',
+      'is-pointer-down',
+    )
   }
 
   return (
-    <>
-      <div className={`carousel ${className} carousel--columns-${visible}`} aria-roledescription="carrossel">
-        <div
-          className="carousel__viewport"
-          ref={viewportRef}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerEnd}
-          onPointerCancel={onPointerEnd}
-          tabIndex={0}
-          aria-label="Galeria horizontal"
-        >
-          <div className="carousel__track">
-            {images.map((image) => (
-              <button
-                key={image.src}
-                type="button"
-                className="carousel__item"
-                onClick={() => {
-                  if (suppressClick.current) return
-                  setActive(image)
-                }}
-                aria-label={`Ampliar ${image.alt}`}
-              >
-                <img src={image.src} alt={image.alt} loading="lazy" draggable={false} />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="carousel__controls" aria-label="Controles do carrossel">
-          <button type="button" className="carousel__control" onClick={() => move(-1)} disabled={!canPrev} aria-label="Imagem anterior">
-            <ChevronLeftIcon />
-          </button>
-          <button type="button" className="carousel__control" onClick={() => move(1)} disabled={!canNext} aria-label="Próxima imagem">
-            <ChevronRightIcon />
-          </button>
+    <div
+      className={`carousel ${className} carousel--columns-${visible}`}
+      aria-roledescription="carrossel"
+    >
+      <div
+        ref={viewportRef}
+        className="carousel__viewport"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerEnd}
+        onPointerCancel={onPointerEnd}
+        tabIndex={0}
+        role="region"
+        aria-label="Galeria horizontal"
+      >
+        <div className="carousel__track">
+          {images.map((image) => (
+            <div
+              key={image.src}
+              className="carousel__item"
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                draggable={false}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
-      {active && (
-        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada" onClick={() => setActive(null)}>
-          <button className="lightbox__close" type="button" onClick={() => setActive(null)} aria-label="Fechar">Fechar</button>
-          <button className="lightbox__nav lightbox__nav--prev" type="button" onClick={(event) => { event.stopPropagation(); const index = images.findIndex((item) => item.src === active.src); setActive(images[(index - 1 + images.length) % images.length]) }} aria-label="Imagem anterior"><ChevronLeftIcon /></button>
-          <img src={active.src} alt={active.alt} onClick={(event) => event.stopPropagation()} />
-          <button className="lightbox__nav lightbox__nav--next" type="button" onClick={(event) => { event.stopPropagation(); const index = images.findIndex((item) => item.src === active.src); setActive(images[(index + 1) % images.length]) }} aria-label="Próxima imagem"><ChevronRightIcon /></button>
-        </div>
-      )}
-    </>
+      <div
+        className="carousel__controls"
+        aria-label="Controles do carrossel"
+      >
+        <button
+          type="button"
+          className="carousel__control"
+          onClick={() => move(-1)}
+          disabled={!canPrev}
+          aria-label="Imagem anterior"
+        >
+          <ChevronLeftIcon />
+        </button>
+
+        <button
+          type="button"
+          className="carousel__control"
+          onClick={() => move(1)}
+          disabled={!canNext}
+          aria-label="Próxima imagem"
+        >
+          <ChevronRightIcon />
+        </button>
+      </div>
+    </div>
   )
 }
