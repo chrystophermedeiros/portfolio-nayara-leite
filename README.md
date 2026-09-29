@@ -75,3 +75,15 @@ npm run dev
 ## Refinamento responsivo 1.8.0
 
 A versão atual usa o próprio código deste pacote como base. Os carrosséis permitem navegação horizontal por toque/arraste e preservam a rolagem vertical da página. Em páginas de projeto, o botão flutuante “Home” aparece após o usuário avançar no conteúdo.
+
+## Layout responsivo por seção
+
+A versão 2.0 usa dimensões fluidas específicas para cada área do portfólio, em vez de uma única escala global. Em desktop e tablet, a largura útil de cada seção é derivada da viewport e do `--page-max`; em telas muito grandes, o conteúdo cresce até um limite para permanecer confortável.
+
+Os carrosséis também calculam o tamanho de cada item por seção:
+- `carousel--before`: 3 itens alinhados em desktop/tablet;
+- `carousel--final`: 5 itens alinhados em desktop/tablet;
+- `carousel--screens` e `carousel--splendore`: 4 itens em desktop/tablet;
+- mobile: um item principal com prévia da próxima tela.
+
+No touch, o navegador controla o gesto nativamente (`pan-x pan-y pinch-zoom`), enquanto o drag manual continua disponível para mouse. Isso permite arrastar lateralmente sem bloquear a rolagem vertical da página.
