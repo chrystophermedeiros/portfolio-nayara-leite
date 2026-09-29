@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { PointerEvent as ReactPointerEvent } from 'react'
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from './Icons'
 
 type ImageItem = {
@@ -21,8 +21,10 @@ type Gesture = {
   axis: 'none' | 'x' | 'y'
   pointerId: number
   moved: boolean
-  pointerType: string
 }
+
+const GESTURE_THRESHOLD = 8
+const HORIZONTAL_BIAS = 1.15
 
 export default function Carousel({
   images,
@@ -30,8 +32,7 @@ export default function Carousel({
   className = '',
 }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null)
-
-  const gesture = useRef<Gesture>({
+  const gestureRef = useRef<Gesture>({
     active: false,
     startX: 0,
     startY: 0,
@@ -39,179 +40,149 @@ export default function Carousel({
     axis: 'none',
     pointerId: -1,
     moved: false,
-    pointerType: '',
   })
 
   const [canPrev, setCanPrev] = useState(false)
   const [canNext, setCanNext] = useState(false)
 
   const syncControls = () => {
-    const el = viewportRef.current
+    const viewport = viewportRef.current
+    if (!viewport) return
 
-    if (!el) return
+    const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
 
-    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth)
-
-    setCanPrev(el.scrollLeft > 4)
-    setCanNext(maxScroll - el.scrollLeft > 4)
+    setCanPrev(viewport.scrollLeft > 4)
+    setCanNext(maxScroll - viewport.scrollLeft > 4)
   }
 
   useEffect(() => {
-    const el = viewportRef.current
+    const viewport = viewportRef.current
+    if (!viewport) return
 
-    if (!el) return
+    const resizeObserver = typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(syncControls)
+      : null
 
-    const update = () => syncControls()
-
-    update()
-
-    el.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
+    syncControls()
+    viewport.addEventListener('scroll', syncControls, { passive: true })
+    window.addEventListener('resize', syncControls)
+    resizeObserver?.observe(viewport)
 
     return () => {
-      el.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
+      viewport.removeEventListener('scroll', syncControls)
+      window.removeEventListener('resize', syncControls)
+      resizeObserver?.disconnect()
     }
   }, [images.length, visible])
 
   const move = (direction: -1 | 1) => {
-    const el = viewportRef.current
+    const viewport = viewportRef.current
+    if (!viewport) return
 
-    if (!el) return
-
-    const first = el.querySelector<HTMLElement>('.carousel__item')
-    const track = el.querySelector<HTMLElement>('.carousel__track')
-
-    const gap = track
-      ? parseFloat(getComputedStyle(track).gap) || 0
-      : 0
-
+    const firstItem = viewport.querySelector<HTMLElement>('.carousel__item')
+    const track = viewport.querySelector<HTMLElement>('.carousel__track')
+    const gap = track ? Number.parseFloat(getComputedStyle(track).gap) || 0 : 0
     const amount = Math.max(
       180,
-      (first?.offsetWidth ?? el.clientWidth * 0.42) + gap,
+      (firstItem?.getBoundingClientRect().width ?? viewport.clientWidth * 0.8) + gap,
     )
 
-    el.scrollBy({
+    viewport.scrollBy({
       left: direction * amount,
       behavior: 'smooth',
     })
   }
 
-  const onPointerDown = (
-    event: ReactPointerEvent<HTMLDivElement>,
-  ) => {
-    const el = viewportRef.current
+  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const viewport = viewportRef.current
+    if (!viewport) return
 
-    if (!el) return
-
-    const pointerType = event.pointerType || 'mouse'
-
-    gesture.current = {
+    gestureRef.current = {
       active: true,
       startX: event.clientX,
       startY: event.clientY,
-      startScroll: el.scrollLeft,
+      startScroll: viewport.scrollLeft,
       axis: 'none',
       pointerId: event.pointerId,
       moved: false,
-      pointerType,
     }
 
-    if (pointerType !== 'touch') {
-      el.classList.add('is-pointer-down')
-    }
+    viewport.classList.add('is-pointer-down')
   }
 
-  const onPointerMove = (
-    event: ReactPointerEvent<HTMLDivElement>,
-  ) => {
-    const el = viewportRef.current
-    const currentGesture = gesture.current
+  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const viewport = viewportRef.current
+    const gesture = gestureRef.current
 
-    if (!el || !currentGesture.active) return
+    if (!viewport || !gesture.active) return
 
-    const dx = event.clientX - currentGesture.startX
-    const dy = event.clientY - currentGesture.startY
+    /*
+     * Touch/pointer pen: deixe o navegador controlar o gesto nativamente.
+     * Com touch-action: pan-x pan-y pinch-zoom, o usuário pode rolar para os
+     * lados no carrossel e continuar a página normalmente no eixo vertical.
+     */
+    if (event.pointerType === 'touch' || event.pointerType === 'pen') {
+      return
+    }
 
+    const dx = event.clientX - gesture.startX
+    const dy = event.clientY - gesture.startY
     const absX = Math.abs(dx)
     const absY = Math.abs(dy)
-    const distance = Math.max(absX, absY)
 
-    if (currentGesture.axis === 'none') {
-      if (distance < 8) return
+    if (gesture.axis === 'none') {
+      if (Math.max(absX, absY) < GESTURE_THRESHOLD) return
 
-      /*
-       * Só assumimos controle horizontal quando o movimento
-       * realmente for predominantemente horizontal.
-       */
-      currentGesture.axis =
-        absX > absY * 1.18
-          ? 'x'
-          : 'y'
+      gesture.axis = absX > absY * HORIZONTAL_BIAS ? 'x' : 'y'
 
-      if (currentGesture.axis === 'x') {
-        currentGesture.moved = true
-
-        try {
-          el.setPointerCapture(event.pointerId)
-        } catch {
-          // Pointer capture é opcional.
-        }
-
-        el.classList.add('is-dragging')
-      } else {
-        /*
-         * Movimento vertical:
-         * não interfere no scroll da página.
-         */
-        currentGesture.active = false
-
-        el.classList.remove(
-          'is-dragging',
-          'is-pointer-down',
-        )
-
+      if (gesture.axis === 'y') {
+        // Movimento vertical do mouse não deve interferir na página.
+        gesture.active = false
+        viewport.classList.remove('is-dragging', 'is-pointer-down')
         return
+      }
+
+      gesture.moved = true
+      viewport.classList.add('is-dragging')
+
+      try {
+        viewport.setPointerCapture(event.pointerId)
+      } catch {
+        // Pointer capture não é obrigatório para o funcionamento.
       }
     }
 
-    if (currentGesture.axis !== 'x') return
+    if (gesture.axis !== 'x') return
 
-    /*
-     * Somente o gesto horizontal recebe preventDefault.
-     * Scroll vertical da página continua livre.
-     */
     event.preventDefault()
-
-    el.scrollLeft = currentGesture.startScroll - dx
+    viewport.scrollLeft = gesture.startScroll - dx
   }
 
-  const onPointerEnd = (
-    event: ReactPointerEvent<HTMLDivElement>,
-  ) => {
-    const el = viewportRef.current
-    const currentGesture = gesture.current
+  const onPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const viewport = viewportRef.current
+    const gesture = gestureRef.current
 
-    if (!el) return
+    if (!viewport) return
 
-    if (el.hasPointerCapture(event.pointerId)) {
-      el.releasePointerCapture(event.pointerId)
+    if (viewport.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId)
     }
 
-    currentGesture.active = false
-    currentGesture.axis = 'none'
-    currentGesture.pointerId = -1
+    gesture.active = false
+    gesture.axis = 'none'
+    gesture.pointerId = -1
+    gesture.moved = false
 
-    el.classList.remove(
-      'is-dragging',
-      'is-pointer-down',
-    )
+    viewport.classList.remove('is-dragging', 'is-pointer-down')
   }
 
   return (
     <div
       className={`carousel ${className} carousel--columns-${visible}`}
+      style={{ '--carousel-visible': visible } as CSSProperties}
+      role="region"
       aria-roledescription="carrossel"
+      aria-label="Galeria horizontal"
     >
       <div
         ref={viewportRef}
@@ -220,20 +191,17 @@ export default function Carousel({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerEnd}
         onPointerCancel={onPointerEnd}
+        onLostPointerCapture={onPointerEnd}
         tabIndex={0}
-        role="region"
-        aria-label="Galeria horizontal"
       >
         <div className="carousel__track">
           {images.map((image) => (
-            <div
-              key={image.src}
-              className="carousel__item"
-            >
+            <div className="carousel__item" key={image.src}>
               <img
                 src={image.src}
                 alt={image.alt}
                 loading="lazy"
+                decoding="async"
                 draggable={false}
               />
             </div>
@@ -241,10 +209,7 @@ export default function Carousel({
         </div>
       </div>
 
-      <div
-        className="carousel__controls"
-        aria-label="Controles do carrossel"
-      >
+      <div className="carousel__controls" aria-label="Controles do carrossel">
         <button
           type="button"
           className="carousel__control"

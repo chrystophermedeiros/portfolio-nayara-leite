@@ -54,22 +54,20 @@ export default function SplendorePage() {
             <Tag>UI DESIGN · MOBILE</Tag>
             <h1>Splendore</h1>
             <p>E-commerce de tênis com navegação intuitiva e experiência de compra fluida.</p>
+            <div className="project-meta project-meta--images" aria-label="Informações do projeto">
+              <picture>
+                <source media="(max-width: 720px)" srcSet="/assets/icons/app-mobile-compact.svg" />
+                <img src="/assets/icons/app-mobile.svg" alt="Aplicativo mobile" />
+              </picture>
+              <picture>
+                <source media="(max-width: 720px)" srcSet="/assets/icons/figma-chip-compact.svg" />
+                <img src="/assets/icons/figma-chip.svg" alt="Figma" />
+              </picture>
+            </div>
           </div>
 
           <div className="splendore-detail-hero"><img src="/assets/splendore-hero.png" alt="Colagem principal do Splendore" /></div>
 
-          <div className="project-meta project-meta--images" aria-label="Informações do projeto">
-            
-            <picture>
-              <source media="(max-width: 720px)" srcSet="/assets/icons/app-mobile-compact.svg" />
-              <img src="/assets/icons/app-mobile.svg" alt="Aplicativo mobile" />
-            </picture>
-            <picture>
-              <source media="(max-width: 720px)" srcSet="/assets/icons/figma-chip-compact.svg" />
-              <img src="/assets/icons/figma-chip.svg" alt="Figma" />
-            </picture>
-
-          </div>
 
         </div>
 

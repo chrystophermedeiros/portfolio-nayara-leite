@@ -30,9 +30,7 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [route.name])
 
-  const goHome = () => {
-    window.history.pushState({}, '', '/')
-    window.dispatchEvent(new PopStateEvent('popstate'))
+  const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -48,7 +46,7 @@ export default function App() {
       </main>
       <SiteFooter />
       {(route.name === 'home' || route.name === 'project') && showHomeFab && (
-        <button type="button" className="scroll-home-fab" onClick={goHome} aria-label="Voltar para a página inicial">
+        <button type="button" className="scroll-home-fab" onClick={scrollToTop} aria-label="Voltar ao topo da página">
           <ArrowUpIcon aria-hidden="true" />
           
         </button>

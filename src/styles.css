@@ -208,12 +208,6 @@ svg { display: block; }
 .carousel--final .carousel__item img { max-height: 340px; }
 .carousel--screens .carousel__item img { aspect-ratio: .46; object-fit: contain; }
 .carousel--splendore .carousel__item img { aspect-ratio: .46; object-fit: contain; max-height: 430px; }
-.lightbox { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px 70px; background: rgba(19,17,26,.84); }
-.lightbox img { max-width: min(920px, 88vw); max-height: 90vh; border-radius: 10px; background: #fff; box-shadow: 0 22px 80px rgba(0,0,0,.25); }
-.lightbox__close { position: absolute; z-index: 2; top: 18px; right: 18px; min-height: 34px; padding: 0 13px; border-radius: 7px; background: #fff; color: var(--ink); font-size: 10px; font-weight: 800; cursor: pointer; }
-.lightbox__nav { position: absolute; top: 50%; translate: 0 -50%; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.95); color: var(--ink); font-size: 29px; line-height: 1; cursor: pointer; }
-.lightbox__nav--prev { left: 16px; }
-.lightbox__nav--next { right: 16px; }
 
 /* Delivery + Splendore */
 .case-hero--delivery-detail, .case-hero--splendore-detail { background: var(--hero); overflow: hidden; }
@@ -944,10 +938,6 @@ svg { display: block; }
 .objective-list svg,
 .process-steps svg,
 .carousel__control svg,
-.lightbox__nav svg {
-  display: block;
-  flex: 0 0 auto;
-}
 
 .hero-socials svg { width: 22px; height: 22px; }
 .footer-contact__icon svg { width: 18px; height: 18px; }
@@ -1417,7 +1407,12 @@ svg { display: block; }
 
   .carousel--final .carousel__item img,
   .carousel--screens .carousel__item img,
-  .carousel--splendore .carousel__item img {
+  .carousel--splendore .carousel__item {
+  cursor: default;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+.carousel__item img {
     max-height: 360px;
   }
 }
@@ -2281,4 +2276,571 @@ svg {
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-home-fab { transition: none; }
+}
+
+
+/* =========================================================
+   FINAL RESPONSIVE PASS — current source only
+   - Native horizontal scrolling on every carousel.
+   - Vertical document scrolling is never hijacked by the carousel.
+   - Item widths are calculated from the carousel viewport.
+   - Project metadata artwork is compact and stays inside its copy column.
+   ========================================================= */
+
+.carousel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  --carousel-gap: 10px;
+}
+
+.carousel__viewport {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 0;
+  touch-action: pan-x pan-y pinch-zoom;
+  cursor: grab;
+}
+
+.carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel__viewport:active {
+  cursor: grabbing;
+}
+
+.carousel__track {
+  width: 100%;
+  min-width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--carousel-gap);
+  padding: 0 1px 6px;
+  box-sizing: border-box;
+}
+
+.carousel__item {
+  flex: 0 0 calc(
+    (100% - (var(--carousel-visible) - 1) * var(--carousel-gap)) /
+    var(--carousel-visible)
+  );
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  scroll-snap-align: start;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.carousel__item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.carousel--before .carousel__item img {
+  aspect-ratio: 2.22;
+  object-fit: cover;
+}
+
+.carousel--final .carousel__item img,
+.carousel--screens .carousel__item img,
+.carousel--splendore .carousel__item img {
+  object-fit: contain;
+}
+
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.project-meta--images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin-top: 18px;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.project-meta--images picture {
+  display: block;
+  flex: 0 0 auto;
+  min-width: 0;
+  line-height: 0;
+}
+
+.project-meta--images picture img {
+  display: block;
+  width: auto;
+  height: 28px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@media (min-width: 721px) {
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img {
+    max-height: 380px;
+  }
+
+  .carousel--final {
+    padding-inline: 8px;
+  }
+
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex-basis: calc(
+      (100% - (var(--carousel-visible) - 1) * var(--carousel-gap)) /
+      var(--carousel-visible)
+    );
+  }
+
+  .project-meta--images picture img {
+    height: 28px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .carousel {
+    --carousel-gap: 8px;
+  }
+
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img {
+    max-height: 410px;
+  }
+
+  .project-meta--images picture img {
+    height: 30px;
+  }
+}
+
+@media (max-width: 720px) {
+  .carousel {
+    --carousel-gap: 10px;
+  }
+
+  .carousel__track {
+    width: 100%;
+    min-width: 100%;
+    gap: var(--carousel-gap);
+    padding-inline: 0;
+  }
+
+  .carousel__item,
+  .carousel--before .carousel__item,
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex: 0 0 calc(100% - 18px);
+  }
+
+  .carousel--final {
+    padding: 16px 10px 14px;
+    box-sizing: border-box;
+  }
+
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img {
+    max-height: 430px;
+  }
+
+  .carousel__controls {
+    margin-top: 12px;
+  }
+
+  .carousel__control {
+    width: 44px;
+    min-width: 44px;
+    height: 38px;
+  }
+
+  .project-meta--images {
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .project-meta--images picture img {
+    height: 24px;
+    width: auto;
+  }
+}
+
+/* Prevent long metadata/content blocks from creating horizontal overflow. */
+.case-detail-copy,
+.delivery-detail-hero,
+.splendore-detail-hero,
+.project-meta--images {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (min-width: 721px) and (max-width: 1199px) {
+  .project-page--delivery .delivery-project-grid,
+  .project-page--splendore .splendore-overview {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .project-page--delivery .delivery-project-grid > *,
+  .project-page--splendore .splendore-overview > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+
+/* Tablet gallery scale: fewer columns keep project screens readable without changing mobile. */
+@media (min-width: 721px) and (max-width: 1199px) {
+  .carousel--final { --carousel-visible: 4 !important; }
+  .carousel--screens,
+  .carousel--splendore { --carousel-visible: 3 !important; }
+
+  .carousel--before .carousel__item img {
+    max-height: 300px;
+  }
+}
+
+/* Keep the challenge block completely inside its grid cell on compact tablets. */
+@media (min-width: 721px) and (max-width: 900px) {
+  .project-page--delivery .delivery-project-grid {
+    gap: 20px;
+  }
+
+  .project-page--delivery .delivery-highlight {
+    padding: 18px;
+  }
+
+  .project-page--delivery .delivery-highlight h3 {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+}
+
+/* =========================================================
+   V14 — CAROUSEL STABILITY / RESPONSIVE IMAGE SIZING
+   - Horizontal touch/mouse drag without hijacking vertical page scroll
+   - Equal image boxes on every carousel
+   - Tighter gaps on tablet/desktop
+   - 1 item (with small preview) on mobile
+   - Full, uncropped persona image
+   ========================================================= */
+
+.carousel {
+  --carousel-gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.carousel__viewport {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  scroll-snap-type: x proximity;
+  touch-action: pan-x pan-y pinch-zoom;
+  cursor: grab;
+}
+
+.carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel__viewport.is-pointer-down,
+.carousel__viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.carousel__track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  min-width: 100%;
+  gap: var(--carousel-gap);
+  padding: 0 1px 5px;
+  box-sizing: border-box;
+}
+
+.carousel__item {
+  flex: 0 0 calc(
+    (100% - ((var(--carousel-visible) - 1) * var(--carousel-gap))) /
+    var(--carousel-visible)
+  );
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  scroll-snap-align: start;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.carousel__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Antes: todas as telas têm exatamente a mesma caixa e nunca são cortadas. */
+.carousel--before .carousel__item {
+  aspect-ratio: 2.22;
+}
+
+.carousel--before .carousel__item img {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* Interfaces verticais: mesma largura/altura visual em todos os itens. */
+.carousel--final .carousel__item,
+.carousel--screens .carousel__item,
+.carousel--splendore .carousel__item {
+  aspect-ratio: .46;
+}
+
+.carousel--final .carousel__item img,
+.carousel--screens .carousel__item img,
+.carousel--splendore .carousel__item img {
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* Tablet: 2 telas no Antes e 3 telas nas galerias verticais. */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .carousel--before {
+    --carousel-visible: 2;
+  }
+
+  .carousel--final,
+  .carousel--screens,
+  .carousel--splendore {
+    --carousel-visible: 3;
+  }
+
+  .carousel__track {
+    gap: 8px;
+  }
+}
+
+/* Mobile: uma tela principal com pequena prévia da próxima. */
+@media (max-width: 720px) {
+  .carousel {
+    --carousel-gap: 12px;
+  }
+
+  .carousel__viewport {
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  .carousel__track {
+    gap: 12px;
+  }
+
+  .carousel__item,
+  .carousel--before .carousel__item,
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex-basis: calc(100% - 22px);
+  }
+
+  .carousel--before .carousel__item {
+    aspect-ratio: 2.22;
+  }
+
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    aspect-ratio: .46;
+  }
+}
+
+/* Persona Julia: mostra o asset completo, sem crop. */
+.persona-panel {
+  overflow: visible;
+}
+
+.persona-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* =========================================================
+   V15 — CAROUSEL FINAL RESPONSIVE TUNING
+   - Equal card dimensions for "Antes"
+   - Smaller vertical screens on smartphones
+   - Tighter spacing on desktop/tablet
+   - Touch scroll stays native on both axes
+   ========================================================= */
+
+.carousel__viewport {
+  touch-action: pan-x pan-y pinch-zoom;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.carousel__track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--carousel-gap, 8px);
+  width: 100%;
+  min-width: 100%;
+}
+
+.carousel__item {
+  flex-shrink: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* BEFORE — every card has exactly the same external dimensions. */
+@media (min-width: 721px) {
+  .carousel--before .carousel__item {
+    flex: 0 0 calc(
+      (100% - (2 * var(--carousel-gap, 8px))) / 3
+    );
+    aspect-ratio: 758 / 339;
+    height: auto;
+  }
+
+  .carousel--before .carousel__item img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 758 / 339;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Desktop/tablet vertical galleries: compact, even columns. */
+@media (min-width: 721px) {
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex: 0 0 clamp(145px, 15.5vw, 205px);
+    aspect-ratio: 390 / 844;
+  }
+
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+/* Tablet: keep the before gallery exactly 3 equal cards, but slightly smaller
+   vertical screens so the section remains balanced. */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex-basis: clamp(132px, 16vw, 178px);
+  }
+}
+
+/* Smartphone: reduce height substantially while preserving the image ratio. */
+@media (max-width: 720px) {
+  .carousel {
+    --carousel-gap: 10px;
+  }
+
+  .carousel__track {
+    gap: 10px;
+    min-width: max-content;
+    width: max-content;
+    padding-inline: 0;
+  }
+
+  /* Before: one readable image with a small preview of the next. */
+  .carousel--before .carousel__item {
+    flex: 0 0 calc(100vw - 56px);
+    aspect-ratio: 758 / 339;
+  }
+
+  .carousel--before .carousel__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Vertical galleries: two compact screens side-by-side. */
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex: 0 0 min(43vw, 175px);
+    aspect-ratio: 390 / 844;
+  }
+
+  .carousel--final .carousel__item img,
+  .carousel--screens .carousel__item img,
+  .carousel--splendore .carousel__item img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 380px) {
+  .carousel--final .carousel__item,
+  .carousel--screens .carousel__item,
+  .carousel--splendore .carousel__item {
+    flex-basis: 44vw;
+  }
 }
